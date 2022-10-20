@@ -6,12 +6,12 @@ use ieee.numeric_std.all;
 entity s_reg_n is  
 	
 	-- N = I/O bit-width
-	-- RST_V = output value on reset
-	-- EDGE = clock value during sample
+	-- RST_V = reset value on reset
+	-- CLK_V = clock value during sample
 	generic (
 		N : integer := 8;
-		RST_V : std_logic := '0';
-		EDGE : std_logic := '1'
+		RST_V : std_logic := '1';
+		CLK_V : std_logic := '1'
 	);
 	
 	port (
@@ -27,9 +27,9 @@ begin
 
 	process (clk) is
 	begin  
-		if (clk'event and clk = EDGE) then
-			if (rst = '1') then
-				d_out <= (others => RST_V);
+		if (clk'event and clk = CLK_V) then
+			if (rst = RST_V) then
+				d_out <= (others => '0');
 			elsif (en = '1') then
 				d_out <= d_in;
 			end if;

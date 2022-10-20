@@ -15,13 +15,13 @@ architecture test of tb_s_adder_n is
 	
 		port (
 			ina, inb: in signed(N-1 downto 0);
-			outc: out signed(N downto 0)
+			outc: out signed(N-1 downto 0)
 		);
 	
 	end component s_adder_n;
 
 	signal tb_ina, tb_inb : signed(7 downto 0);
-	signal tb_outc : signed(8 downto 0);
+	signal tb_outc : signed(7 downto 0);
 
 begin
 	

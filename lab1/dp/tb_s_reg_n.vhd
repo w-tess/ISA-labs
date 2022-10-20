@@ -11,8 +11,8 @@ architecture test of tb_s_reg_n is
 
 		generic (
 			N : integer := 8;
-			RST_V : std_logic := '0';
-			EDGE : std_logic := '1'
+			RST_V : std_logic := '1';
+			CLK_V : std_logic := '1'
 		);
 		
 		port (

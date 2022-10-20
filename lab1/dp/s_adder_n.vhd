@@ -11,7 +11,7 @@ entity s_adder_n is
 
 	port (
 		ina, inb: in signed(N-1 downto 0);
-		outc: out signed(N downto 0)
+		outc: out signed(N-1 downto 0)
 	);
 
 end entity s_adder_n;
@@ -19,7 +19,6 @@ end entity s_adder_n;
 architecture behavioral of s_adder_n is
 begin
 	
-	-- resize() does a sign extension 
-	outc <= resize(ina, N+1) + resize(inb, N+1);
+	outc <= ina + inb;
 		
 end architecture behavioral;

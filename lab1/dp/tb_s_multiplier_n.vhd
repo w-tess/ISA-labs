@@ -30,7 +30,7 @@ begin
 	tb_ina <= X"32", X"10" after 5 ns, X"A1" after 10 ns, 
 					 X"7A" after 15 ns, X"B2" after 20 ns; 
 
-	tb_inb <= X"4F", X"27" after 5 ns, X"AA" after 10 ns, 
-					 X"5A" after 15 ns, X"30" after 20 ns;
+	tb_inb <= X"4F", X"97" after 5 ns, X"2A" after 10 ns, 
+					 X"5C" after 15 ns, X"30" after 20 ns;
 	
 end architecture test;
