@@ -11,13 +11,13 @@ entity iir_filter is
 		DIN : in signed (NBIT-1 downto 0);
 		VIN : in std_logic;
 		RST_n : in std_logic;
-    		B0 : in signed (NBIT-1 downto 0);
-    		B1 : in signed (NBIT-1 downto 0);
-    		B2 : in signed (NBIT-1 downto 0);
-    		A1 : in signed (NBIT-1 downto 0);
-    		A2 : in signed (NBIT-1 downto 0);
+    	B0 : in signed (NBIT-1 downto 0);
+    	B1 : in signed (NBIT-1 downto 0);
+    	B2 : in signed (NBIT-1 downto 0);
+    	A1 : in signed (NBIT-1 downto 0);
+    	A2 : in signed (NBIT-1 downto 0);
 		VOUT : out std_logic;
-    		DOUT : out signed (NBIT-1 downto 0)
+    	DOUT : out signed (NBIT-1 downto 0)
 	);
 
 end entity iir_filter;
@@ -31,15 +31,16 @@ component cu
 		VIN : in std_logic;
 		LE1 : out std_logic;
 		LE2 : out std_logic;
+		LE3 : out std_logic;
 		RSTN : out std_logic;
 		DONE : out std_logic);
 end component;
 
-component dp
+component iir_filter_dp
   	port (
    		clk : in std_logic;
    		din : in signed(8 downto 0);
-   		le1, le2 : in std_logic;
+   		le1, le2, le3 : in std_logic;
    		rstn, done : in std_logic;
    		b0 : in signed(NBIT-1 downto 0);
    		b1 : in signed(NBIT-1 downto 0);
@@ -52,6 +53,7 @@ end component;
 
 signal logic_enable1 : std_logic;
 signal logic_enable2 : std_logic;
+signal logic_enable3 : std_logic;
 signal reset : std_logic;
 signal dn : std_logic;
   
@@ -64,15 +66,18 @@ begin --str
 		VIN => VIN,
 		LE1 => logic_enable1,
 		LE2 => logic_enable2,
+		LE3 => logic_enable3,
 		RSTN => reset,
-		DONE => dn);
+		DONE => dn
+	);
 	
-	my_dp: dp
+	my_dp: iir_filter_dp
 	port map (
 		clk => CLK,
 		din => DIN,
 		le1 => logic_enable1,
 		le2 => logic_enable2,
+		le3 => logic_enable3,
 		rstn => reset,
 		done => dn,
 		b0 => B0,
@@ -81,6 +86,7 @@ begin --str
 		a1 => A1,
 		a2 => A2,
 		vout => VOUT,
-		dout => DOUT);
+		dout => DOUT
+	);
 
 end architecture str;

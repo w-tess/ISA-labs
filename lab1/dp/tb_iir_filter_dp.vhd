@@ -36,6 +36,7 @@ architecture test of tb_iir_filter_dp is
 begin
 	
 	DUT : iir_filter_dp 
+		generic map(NB => 9, SHAMT => 11)
 		port map(
 			din => tb_din,
 			a1 => tb_a1,
@@ -57,10 +58,14 @@ begin
 	begin
 		tb_clk <= '0', '1' after 5 ns;
 		wait for 10 ns;
+		--if(tb_din'quiet(15 ns) and tb_dout'stable(15 ns)) then
+		--	wait;
+		--end if;
 	end process clk_gen;
 
 	data_gen : process is
 	begin
+		tb_din <= (others => '0');
 		wait for 10 ns;
 		tb_din <= (others => '0');
 		wait for 10 ns;

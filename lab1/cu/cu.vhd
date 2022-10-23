@@ -9,6 +9,7 @@ entity cu is
 		VIN : in std_logic;
 		LE1 : out std_logic;
 		LE2 : out std_logic;
+		LE3 : out std_logic;
 		RSTN : out std_logic;
 		DONE : out std_logic
 	);
@@ -51,7 +52,7 @@ architecture beh of cu is
 					end if;
 				end if;
 			when others =>
-				future_state <= IDLE_S;
+				future_state <= RESET_S;
 		end case;
 		end process;
 	
@@ -66,15 +67,19 @@ architecture beh of cu is
 		begin --process
 		LE1 <= '1';
 		LE2 <= '0';
+		LE3 <= '0';
 		RSTN <= '1';
 		DONE <= '0';
 		case state is 
 			when RESET_S => 
 				LE1 <= '0';
+				LE3 <= '1';
 				RSTN <= '0';
 			when VALID_S => 
 				LE2 <= '1';
 				DONE <= '1';
+			when IDLE_S => 
+			when others => 
 		end case;
 		end process;
 end beh;
