@@ -83,4 +83,3 @@ architecture beh of cu is
 		end case;
 		end process;
 end beh;
-

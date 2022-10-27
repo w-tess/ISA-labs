@@ -3,7 +3,6 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity iir_filter_dp is
-
 	generic (
 		NB : integer := 9;
 		SHAMT : integer := 11
@@ -79,106 +78,106 @@ architecture behavioral of iir_filter_dp is
 	
 	end component s_multiplier_n;
 
-	signal xi, yi : signed(NB-1 downto 0);
-	signal ff, fb : signed(NB-1 downto 0);
-	signal xi_fb  : signed(NB-1 downto 0);
-	signal tmp_fb : signed(NB-1 downto 0);
-	signal reg1, reg2 : signed(NB-1 downto 0);
+	signal rin, add1 : signed(NB-1 downto 0);
+	signal add3, add2 : signed(NB-1 downto 0);
+	signal add0 : signed(NB-1 downto 0);
+	signal tmp_add2 : signed(NB-1 downto 0);
+	signal r0, r1 : signed(NB-1 downto 0);
 
-	type tmp_mult_t is array(0 to 4) of signed(2*NB-1 downto 0);
-	type mult_t is array(0 to 4) of signed(NB-1 downto 0);
-	signal tmp_mult : tmp_mult_t;
-	signal out_mult, coeff : mult_t;
+	type tmp_mpy_t is array(0 to 4) of signed(2*NB-1 downto 0);
+	type mpy_t is array(0 to 4) of signed(NB-1 downto 0);
+	signal tmp_mpy : tmp_mpy_t;
+	signal mpy, coeff : mpy_t;
 
 begin
 	
-	add0 : s_adder_n 
-		generic map(N => NB) 
-		port map(ina => xi, inb => fb, outc => xi_fb);
-	add1 : s_adder_n 
+	add0_inst : s_adder_n 
 		generic map(N => NB)
-		port map(ina => out_mult(0), inb => ff, outc => yi);
-	add2 : s_adder_n 
+		port map(ina => rin, inb => add2, outc => add0);
+	add1_inst : s_adder_n 
 		generic map(N => NB)
-		port map(ina => out_mult(1), inb => out_mult(3), outc => tmp_fb);
-	add3 : s_adder_n 
+		port map(ina => mpy(0), inb => add3, outc => add1);
+	add2_inst : s_adder_n 
 		generic map(N => NB)
-		port map(ina => out_mult(2), inb => out_mult(4), outc => ff);
+		port map(ina => mpy(1), inb => mpy(3), outc => tmp_add2);
+	add3_inst : s_adder_n 
+		generic map(N => NB)
+		port map(ina => mpy(2), inb => mpy(4), outc => add3);
 
-	mult_b0 : s_multiplier_n 
+	mpy0_inst : s_multiplier_n 
 		generic map(N => NB)
-		port map(ina => coeff(0), inb => xi_fb, outc => tmp_mult(0)); 
-	mult_a1 : s_multiplier_n
+		port map(ina => coeff(0), inb => add0, outc => tmp_mpy(0)); 
+	mpy1_inst : s_multiplier_n
 		generic map(N => NB)
-		port map(ina => coeff(1), inb => reg1, outc => tmp_mult(1)); 
-	mult_b1 : s_multiplier_n
+		port map(ina => coeff(1), inb => r0, outc => tmp_mpy(1)); 
+	mpy2_inst : s_multiplier_n
 		generic map(N => NB)
-		port map(ina => coeff(2), inb => reg1, outc => tmp_mult(2)); 
-	mult_a2 : s_multiplier_n
+		port map(ina => coeff(2), inb => r0, outc => tmp_mpy(2)); 
+	mpy3_inst : s_multiplier_n
 		generic map(N => NB)
-		port map(ina => coeff(3), inb => reg2, outc => tmp_mult(3)); 
-	mult_b2 : s_multiplier_n
+		port map(ina => coeff(3), inb => r1, outc => tmp_mpy(3)); 
+	mpy4_inst : s_multiplier_n
 		generic map(N => NB)
-		port map(ina => coeff(4), inb => reg2, outc => tmp_mult(4)); 
+		port map(ina => coeff(4), inb => r1, outc => tmp_mpy(4)); 
 	
-	reg_in : s_reg_n
+	rin_inst : s_reg_n
 		generic map(N => NB, RST_V => '0')
 		port map(d_in => din, rst => rstn, 
-				 clk => clk, en => le1, d_out => xi);
-	reg_out : s_reg_n
+				 clk => clk, en => le1, d_out => rin);
+	rout_inst : s_reg_n
 		generic map(N => NB, RST_V => '0')
-		port map(d_in => yi, rst => rstn, 
+		port map(d_in => add1, rst => rstn, 
 				 clk => clk, en => le2, d_out => dout);
-	reg_int1 : s_reg_n
+	r0_inst : s_reg_n
 		generic map(N => NB, RST_V => '0')
-		port map(d_in => xi_fb, rst => rstn, 
-				 clk => clk, en => le2, d_out => reg1);
-	reg_int2 : s_reg_n
+		port map(d_in => add0, rst => rstn, 
+				 clk => clk, en => le2, d_out => r0);
+	r1_inst : s_reg_n
 		generic map(N => NB, RST_V => '0')
-		port map(d_in => reg1, rst => rstn, 
-				 clk => clk, en => le2, d_out => reg2);
-	reg_b0 : s_reg_n
+		port map(d_in => r0, rst => rstn, 
+				 clk => clk, en => le2, d_out => r1);
+	rb0_inst : s_reg_n
 		generic map(N => NB, RST_V => '0')
 		port map(d_in => b0, rst => '1', 
 				 clk => clk, en => le3, d_out => coeff(0));
-	reg_a1 : s_reg_n	
+	ra1_inst : s_reg_n	
 		generic map(N => NB, RST_V => '0')
 		port map(d_in => a1, rst => '1', 
 				 clk => clk, en => le3, d_out => coeff(1));
-	reg_b1 : s_reg_n
+	rb1_inst : s_reg_n
 		generic map(N => NB, RST_V => '0')
 		port map(d_in => b1, rst => '1', 
 				 clk => clk, en => le3, d_out => coeff(2));
-	reg_a2 : s_reg_n
+	ra2_inst : s_reg_n
 		generic map(N => NB, RST_V => '0')
 		port map(d_in => a2, rst => '1', 
 				 clk => clk, en => le3, d_out => coeff(3));
-	reg_b2 : s_reg_n
+	rb2_inst : s_reg_n
 		generic map(N => NB, RST_V => '0')
 		port map(d_in => b2, rst => '1', 
 				 clk => clk, en => le3, d_out => coeff(4));
 
-	dff_out : dff
+	dff_inst : dff
 		generic map(RST_V => '0')
 		port map(d_in => done, clk => clk,
-				 rst => rstn, en => le2, d_out => vout);
+				 rst => rstn, en => le1, d_out => vout);
 
 	-- shift operation on the output of every
 	-- multipier is performed by this process
-	shift_op : process (tmp_mult) is
+	shift_op : process (tmp_mpy) is
 		variable tmp_shift : signed(2*NB-1 downto 0);
 	begin
-		for i in tmp_mult'range loop
-			tmp_shift := tmp_mult(i);
+		for i in tmp_mpy'range loop
+			tmp_shift := tmp_mpy(i);
 			tmp_shift := shift_right(tmp_shift, SHAMT);
 			tmp_shift := shift_left(tmp_shift, SHAMT-NB+1);
-			out_mult(i) <= tmp_shift(NB-1 downto 0);
+			mpy(i) <= tmp_shift(NB-1 downto 0);
 		end loop;
 	end process;
 
 	-- since a1 and a2 coefficients are inverted
 	-- invert again the sum operation, the result
-	-- represents fb
-	fb <= -tmp_fb;
+	-- represents add2
+	add2 <= -tmp_add2;
 
 end architecture behavioral;

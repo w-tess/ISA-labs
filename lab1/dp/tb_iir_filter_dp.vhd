@@ -83,6 +83,10 @@ begin
 		wait for 10 ns;
 		tb_din <= to_signed(207,9);
 		wait for 10 ns;
+		tb_din <= to_signed(26,9);
+		wait for 10 ns;
+		tb_din <= to_signed(-74,9);
+		wait for 10 ns;
 		tb_din <= (others => '1');
 		wait for 10 ns;
 		tb_din <= to_signed(79,9);
@@ -95,13 +99,17 @@ begin
 	
 	ctrl_gen : process is
 	begin
-		tb_rstn <= '0';	tb_le1 <= '0'; tb_le2 <= '0'; tb_le3 <= '1'; tb_done <= '0'; 
+		tb_rstn <= '0';	tb_le1 <= '0'; tb_le2 <= '0'; tb_le3 <= '1'; tb_done <= '0'; -- reset
 		wait for 10 ns;
-		tb_rstn <= '1';	tb_le1 <= '1'; tb_le2 <= '0'; tb_le3 <= '0'; tb_done <= '0'; 
+		tb_rstn <= '1';	tb_le1 <= '1'; tb_le2 <= '0'; tb_le3 <= '0'; tb_done <= '0'; -- idle
 		wait for 10 ns;
-		tb_rstn <= '1';	tb_le1 <= '1'; tb_le2 <= '1'; tb_le3 <= '0'; tb_done <= '1'; 
-		wait for 120 ns;
-		tb_rstn <= '0';	tb_le1 <= '0'; tb_le2 <= '0'; tb_le3 <= '0'; tb_done <= '0'; 
+		tb_rstn <= '1';	tb_le1 <= '1'; tb_le2 <= '1'; tb_le3 <= '0'; tb_done <= '1'; -- valid
+		wait for 80 ns;
+		tb_rstn <= '1';	tb_le1 <= '1'; tb_le2 <= '0'; tb_le3 <= '0'; tb_done <= '0'; -- idle
+		wait for 20 ns;
+		tb_rstn <= '1';	tb_le1 <= '1'; tb_le2 <= '1'; tb_le3 <= '0'; tb_done <= '1'; -- valid
+		wait for 40 ns;
+		tb_rstn <= '0';	tb_le1 <= '0'; tb_le2 <= '0'; tb_le3 <= '0'; tb_done <= '0'; -- reset
 		wait;
 	end process ctrl_gen;
 	
