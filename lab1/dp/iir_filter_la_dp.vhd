@@ -4,8 +4,8 @@ use ieee.numeric_std.all;
 
 entity iir_filter_la_dp is
 	generic (
-		NB : integer := 9;
-		SHAMT : integer := 10
+		NB : integer := 9; -- NB=filter bit-width
+		SHAMT : integer := 10 -- SHAMT=number of bits discarded after multiplication
 	);
 
 	port (
@@ -83,11 +83,31 @@ architecture behavioral of iir_filter_la_dp is
 	type add_t is array(0 to 4) of signed(NB-1 downto 0);
 	type r_t is array(0 to 10) of signed(NB-1 downto 0);
 
+	-- output signal for all the internal
+	-- multipliers, before shift operation
+	-- es. tmp_mpy(1) corresponds to "mpy1" output
+	-- es. tmp_mpy(2) corresponds to "mpy2" output	
 	signal tmp_mpy : tmp_mpy_t;
-	signal mpy, coeff : mpy_t;
+
+	-- output signal for all the internal 
+	-- multipliers, after shift operation
+	-- es. mpy(3) corresponds to "mpy3" output	
+	signal mpy : mpy_t;
+
+	-- internal signals for all the coefficients
+	signal coeff : mpy_t;
+
+	-- output signal for all the internal adders
+	-- es. add(2) corresponds to "add2" output
 	signal add : add_t;
+
+	-- output signal for all the internal registers
+	-- es. r(6) corresponds to "r6" output
 	signal r : r_t;
 	
+	-- output signals for all the internal components
+	-- es. rin corresponds to register "rin" output
+	-- es. rb0 corresponds to adder "rb0" output
 	signal rin : signed(NB-1 downto 0);
 	signal rb0, rb1, ra2, rb2, ra3, rb3 : signed(NB-1 downto 0);
 	signal tmp_add3 : signed(NB-1 downto 0);
@@ -95,6 +115,9 @@ architecture behavioral of iir_filter_la_dp is
 
 begin
 	
+	-- component instances, name for every component is
+	-- matched with the one inside the datapath scheme
+
 	add0_inst : s_adder_n
 		generic map(N => NB) 
 		port map(ina => rin, inb => add(3), outc => add(0));
@@ -207,6 +230,9 @@ begin
 		port map(d_in => b3, rst => '1', 
 				 clk => clk, en => le3, d_out => coeff(5));
 	
+	-- D-type flip flops used as synchronization registers, to
+	-- propagate commands toward the pipelined filter during
+	-- the correct clock cycle
 	dff0_inst : dff
 		generic map(RST_V => '0')
 		port map(d_in => le2, clk => clk,
@@ -223,13 +249,15 @@ begin
 		generic map(RST_V => '0')
 		port map(d_in => int_done(0), clk => clk,
 				 rst => rstn, en => le1, d_out => int_done(1));
+
+	-- D-type flip flop used to provide valid-out "vout" on output
 	dff4_inst : dff
 		generic map(RST_V => '0')
 		port map(d_in => int_done(1), clk => clk,
 				 rst => rstn, en => le1, d_out => vout);
 
 	-- shift operation on the output of every
-	-- multipier is performed by this process
+	-- multiplier is performed by this process
 	shift_op : process (tmp_mpy) is
 		variable tmp_shift : signed(2*NB-1 downto 0);
 	begin
@@ -241,6 +269,9 @@ begin
 		end loop;
 	end process;
 
+	-- since a2 and a3 coefficients are inverted (we need "-a2" and "-a3")
+	-- the sum result is inverted as well (tmp_add3), hence we invert 
+	-- again "tmp_add3" to compute the required value (add3)	
 	add(3) <= -tmp_add3;
 
 end architecture behavioral;

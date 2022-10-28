@@ -25,6 +25,7 @@ architecture test of tb_iir_filter_dp is
 		);
 	end component iir_filter_dp;
 
+	-- internal signals for test
 	signal tb_din : signed(8 downto 0);
 	signal tb_a1, tb_a2 : signed(8 downto 0);
 	signal tb_b0, tb_b1, tb_b2 : signed(8 downto 0);
@@ -35,6 +36,7 @@ architecture test of tb_iir_filter_dp is
 
 begin
 	
+	-- DUT, with 11 bits to discard after mpy (SHAMT=11)
 	DUT : iir_filter_dp 
 		generic map(NB => 9, SHAMT => 11)
 		port map(
@@ -113,6 +115,7 @@ begin
 		wait;
 	end process ctrl_gen;
 	
+	-- stimuli for the coefficients
 	tb_a1 <= to_signed(-95,9);
 	tb_a2 <= to_signed(50,9);
 	tb_b0 <= to_signed(52,9);
