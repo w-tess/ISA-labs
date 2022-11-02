@@ -14,8 +14,9 @@ entity iir_filter_la is
     	B0 : in signed (NBIT-1 downto 0);
     	B1 : in signed (NBIT-1 downto 0);
     	B2 : in signed (NBIT-1 downto 0);
-    	A1 : in signed (NBIT-1 downto 0);
+    	B3 : in signed (NBIT-1 downto 0);
     	A2 : in signed (NBIT-1 downto 0);
+    	A3 : in signed (NBIT-1 downto 0);
 		VOUT : out std_logic;
     	DOUT : out signed (NBIT-1 downto 0)
 	);
@@ -39,16 +40,17 @@ end component;
 component iir_filter_la_dp
   	port (
    		clk : in std_logic;
-   		din : in signed(8 downto 0);
+   		din : in signed(NBIT-1 downto 0);
    		le1, le2, le3 : in std_logic;
    		rstn, done : in std_logic;
    		b0 : in signed(NBIT-1 downto 0);
    		b1 : in signed(NBIT-1 downto 0);
    		b2 : in signed(NBIT-1 downto 0);
-   		a1 : in signed(NBIT-1 downto 0);
+   		b3 : in signed(NBIT-1 downto 0);
    		a2 : in signed(NBIT-1 downto 0);
+   		a3 : in signed(NBIT-1 downto 0);
    		vout : out std_logic;
-   		dout : out signed(8 downto 0));
+   		dout : out signed(NBIT-1 downto 0));
 end component;
 
 signal logic_enable1 : std_logic;
@@ -83,8 +85,9 @@ begin --str
 		b0 => B0,
 		b1 => B1,
 		b2 => B2,
-		a1 => A1,
+		b3 => B3,
 		a2 => A2,
+		a3 => A3,
 		vout => VOUT,
 		dout => DOUT
 	);
