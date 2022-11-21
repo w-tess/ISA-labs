@@ -1,1 +1,0 @@
-/home/isa31_2022_2023/lab1/netlist/iir_filter.sdc
