@@ -1,0 +1,135 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : iir_filter
+Version: S-2021.06-SP4
+Date   : Fri Nov  4 18:55:22 2022
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: my_dp/ra1_inst/d_out_reg[3]
+              (rising edge-triggered flip-flop clocked by clk0)
+  Endpoint: my_dp/rout_inst/d_out_reg[8]
+            (rising edge-triggered flip-flop clocked by clk0)
+  Path Group: clk0
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  iir_filter         5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk0 (rise edge)                                  0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  my_dp/ra1_inst/d_out_reg[3]/CK (DFF_X1)                 0.00       0.00 r
+  my_dp/ra1_inst/d_out_reg[3]/Q (DFF_X1)                  0.10       0.10 r
+  my_dp/ra1_inst/d_out[3] (s_reg_n_9_0_1_4)               0.00       0.10 r
+  my_dp/mpy1_inst/ina[3] (s_multiplier_n_N9_4)            0.00       0.10 r
+  my_dp/mpy1_inst/mult_23/a[3] (s_multiplier_n_N9_4_DW_mult_tc_0_DW_mult_tc_2)
+                                                          0.00       0.10 r
+  my_dp/mpy1_inst/mult_23/U267/Z (CLKBUF_X3)              0.07       0.18 r
+  my_dp/mpy1_inst/mult_23/U401/ZN (XNOR2_X1)              0.07       0.25 r
+  my_dp/mpy1_inst/mult_23/U398/ZN (OAI22_X1)              0.04       0.30 f
+  my_dp/mpy1_inst/mult_23/U51/S (HA_X1)                   0.08       0.37 f
+  my_dp/mpy1_inst/mult_23/U323/ZN (NAND2_X1)              0.04       0.41 r
+  my_dp/mpy1_inst/mult_23/U214/ZN (AND3_X2)               0.06       0.47 r
+  my_dp/mpy1_inst/mult_23/U293/ZN (OAI222_X1)             0.05       0.51 f
+  my_dp/mpy1_inst/mult_23/U327/ZN (NAND2_X1)              0.03       0.55 r
+  my_dp/mpy1_inst/mult_23/U212/ZN (AND3_X2)               0.06       0.61 r
+  my_dp/mpy1_inst/mult_23/U325/ZN (OAI222_X1)             0.05       0.65 f
+  my_dp/mpy1_inst/mult_23/U356/ZN (NAND2_X1)              0.04       0.69 r
+  my_dp/mpy1_inst/mult_23/U296/ZN (NAND3_X1)              0.04       0.72 f
+  my_dp/mpy1_inst/mult_23/U297/ZN (NAND2_X1)              0.03       0.76 r
+  my_dp/mpy1_inst/mult_23/U298/ZN (NAND3_X1)              0.04       0.79 f
+  my_dp/mpy1_inst/mult_23/U331/ZN (NAND2_X1)              0.03       0.83 r
+  my_dp/mpy1_inst/mult_23/U294/ZN (AND3_X1)               0.06       0.89 r
+  my_dp/mpy1_inst/mult_23/U304/ZN (OAI222_X1)             0.05       0.94 f
+  my_dp/mpy1_inst/mult_23/U307/ZN (NAND2_X1)              0.04       0.98 r
+  my_dp/mpy1_inst/mult_23/U310/ZN (NAND3_X1)              0.04       1.02 f
+  my_dp/mpy1_inst/mult_23/U302/ZN (NAND2_X1)              0.03       1.05 r
+  my_dp/mpy1_inst/mult_23/U282/ZN (NAND3_X1)              0.04       1.09 f
+  my_dp/mpy1_inst/mult_23/U286/Z (XOR2_X1)                0.07       1.16 f
+  my_dp/mpy1_inst/mult_23/product[13] (s_multiplier_n_N9_4_DW_mult_tc_0_DW_mult_tc_2)
+                                                          0.00       1.16 f
+  my_dp/mpy1_inst/outc[13] (s_multiplier_n_N9_4)          0.00       1.16 f
+  my_dp/add2_inst/ina[5] (s_adder_n_N9_2)                 0.00       1.16 f
+  my_dp/add2_inst/add_22/A[5] (s_adder_n_N9_2_DW01_add_0_DW01_add_1)
+                                                          0.00       1.16 f
+  my_dp/add2_inst/add_22/U1_5/CO (FA_X1)                  0.10       1.26 f
+  my_dp/add2_inst/add_22/U1_6/CO (FA_X1)                  0.09       1.35 f
+  my_dp/add2_inst/add_22/U1_7/S (FA_X1)                   0.14       1.49 r
+  my_dp/add2_inst/add_22/SUM[7] (s_adder_n_N9_2_DW01_add_0_DW01_add_1)
+                                                          0.00       1.49 r
+  my_dp/add2_inst/outc[7] (s_adder_n_N9_2)                0.00       1.49 r
+  my_dp/U15/ZN (INV_X1)                                   0.02       1.51 f
+  my_dp/U19/ZN (AND2_X1)                                  0.04       1.55 f
+  my_dp/U13/ZN (XNOR2_X1)                                 0.05       1.60 r
+  my_dp/add0_inst/inb[8] (s_adder_n_N9_0)                 0.00       1.60 r
+  my_dp/add0_inst/add_22/B[8] (s_adder_n_N9_0_DW01_add_0_DW01_add_3)
+                                                          0.00       1.60 r
+  my_dp/add0_inst/add_22/U2/Z (XOR2_X1)                   0.07       1.67 r
+  my_dp/add0_inst/add_22/U3/Z (XOR2_X1)                   0.11       1.78 r
+  my_dp/add0_inst/add_22/SUM[8] (s_adder_n_N9_0_DW01_add_0_DW01_add_3)
+                                                          0.00       1.78 r
+  my_dp/add0_inst/outc[8] (s_adder_n_N9_0)                0.00       1.78 r
+  my_dp/mpy0_inst/inb[8] (s_multiplier_n_N9_0)            0.00       1.78 r
+  my_dp/mpy0_inst/mult_23/b[8] (s_multiplier_n_N9_0_DW_mult_tc_0_DW_mult_tc_4)
+                                                          0.00       1.78 r
+  my_dp/mpy0_inst/mult_23/U305/ZN (XNOR2_X1)              0.08       1.86 r
+  my_dp/mpy0_inst/mult_23/U424/ZN (OAI22_X1)              0.04       1.90 f
+  my_dp/mpy0_inst/mult_23/U373/ZN (NAND2_X1)              0.04       1.94 r
+  my_dp/mpy0_inst/mult_23/U375/ZN (NAND3_X1)              0.04       1.97 f
+  my_dp/mpy0_inst/mult_23/U363/ZN (XNOR2_X1)              0.06       2.03 f
+  my_dp/mpy0_inst/mult_23/U35/S (FA_X1)                   0.14       2.17 r
+  my_dp/mpy0_inst/mult_23/U269/ZN (NAND2_X1)              0.03       2.20 f
+  my_dp/mpy0_inst/mult_23/U262/ZN (AND3_X1)               0.05       2.25 f
+  my_dp/mpy0_inst/mult_23/U232/ZN (OAI222_X1)             0.06       2.31 r
+  my_dp/mpy0_inst/mult_23/U380/ZN (NAND2_X1)              0.04       2.34 f
+  my_dp/mpy0_inst/mult_23/U346/ZN (NAND3_X1)              0.04       2.38 r
+  my_dp/mpy0_inst/mult_23/U351/ZN (NAND2_X1)              0.04       2.42 f
+  my_dp/mpy0_inst/mult_23/U354/ZN (NAND3_X1)              0.04       2.46 r
+  my_dp/mpy0_inst/mult_23/U359/ZN (NAND2_X1)              0.03       2.49 f
+  my_dp/mpy0_inst/mult_23/U300/ZN (NAND3_X1)              0.04       2.52 r
+  my_dp/mpy0_inst/mult_23/U362/ZN (NAND2_X1)              0.04       2.56 f
+  my_dp/mpy0_inst/mult_23/U233/ZN (NAND3_X1)              0.04       2.60 r
+  my_dp/mpy0_inst/mult_23/U293/ZN (NAND2_X1)              0.03       2.62 f
+  my_dp/mpy0_inst/mult_23/U295/ZN (NAND3_X1)              0.03       2.66 r
+  my_dp/mpy0_inst/mult_23/U289/ZN (XNOR2_X1)              0.06       2.72 r
+  my_dp/mpy0_inst/mult_23/product[16] (s_multiplier_n_N9_0_DW_mult_tc_0_DW_mult_tc_4)
+                                                          0.00       2.72 r
+  my_dp/mpy0_inst/outc[16] (s_multiplier_n_N9_0)          0.00       2.72 r
+  my_dp/add1_inst/ina[8] (s_adder_n_N9_3)                 0.00       2.72 r
+  my_dp/add1_inst/add_22/A[8] (s_adder_n_N9_3_DW01_add_0_DW01_add_2)
+                                                          0.00       2.72 r
+  my_dp/add1_inst/add_22/U36/ZN (XNOR2_X1)                0.06       2.78 r
+  my_dp/add1_inst/add_22/U37/ZN (XNOR2_X1)                0.06       2.84 r
+  my_dp/add1_inst/add_22/SUM[8] (s_adder_n_N9_3_DW01_add_0_DW01_add_2)
+                                                          0.00       2.84 r
+  my_dp/add1_inst/outc[8] (s_adder_n_N9_3)                0.00       2.84 r
+  my_dp/rout_inst/d_in[8] (s_reg_n_9_0_1_8)               0.00       2.84 r
+  my_dp/rout_inst/U6/ZN (INV_X1)                          0.02       2.86 f
+  my_dp/rout_inst/U4/ZN (OAI22_X1)                        0.04       2.89 r
+  my_dp/rout_inst/d_out_reg[8]/D (DFF_X1)                 0.01       2.90 r
+  data arrival time                                                  2.90
+
+  clock clk0 (rise edge)                                  3.01       3.01
+  clock network delay (ideal)                             0.00       3.01
+  clock uncertainty                                      -0.07       2.94
+  my_dp/rout_inst/d_out_reg[8]/CK (DFF_X1)                0.00       2.94 r
+  library setup time                                     -0.04       2.90
+  data required time                                                 2.90
+  --------------------------------------------------------------------------
+  data required time                                                 2.90
+  data arrival time                                                 -2.90
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+1
