@@ -1,6 +1,6 @@
 module ha (
-	output wire sum, cout,
-	input  wire a, b
+	output logic sum, cout,
+	input  logic a, b
 );
 	
 	assign sum = a ^ b;

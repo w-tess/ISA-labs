@@ -5,15 +5,15 @@
  */
 
 module ppg (
-	output wire [23:0] x, 
-	output wire [24:0] x_2, 
-	output wire [25:0] x_3, x_4,
-	input  wire [23:0] din
+	output logic [23:0] x, 
+	output logic [24:0] x_2, 
+	output logic [25:0] x_3, x_4,
+	input  logic [23:0] multiplicand
 );
 	
-	assign   x =  din;
-	assign x_2 =  din << 1;
-	assign x_3 = (din << 1) + din;
-	assign x_4 =  din << 2;
+	assign   x =  multiplicand;
+	assign x_2 =  multiplicand << 1;
+	assign x_3 = (multiplicand << 1) + multiplicand;
+	assign x_4 =  multiplicand << 2;
 
 endmodule

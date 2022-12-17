@@ -4,12 +4,15 @@
  * corresponding Booth-Encoding.
  */
 module be (
-	output reg ai, bi, ci, di, ni,
-	input wire [3:0] din
+	output logic ai, bi, ci, di, ni,
+	input logic [3:0] seq
 );
 
-	always @(din) begin
-		case (din)
+	/* Always block used to translate the input
+	 * sequence according to Booth Encoding
+	 */
+	always @(seq) begin
+		case (seq)
 			4'b0000	: {ai, bi, ci, di, ni} = 5'b00000; 
 			4'b0001	: {ai, bi, ci, di, ni} = 5'b10000;
 			4'b0010	: {ai, bi, ci, di, ni} = 5'b10000;

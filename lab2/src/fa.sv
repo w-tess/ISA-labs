@@ -1,12 +1,12 @@
 `include "ha.sv"
 
 module fa (
-	output wire sum, cout,
-	input  wire a, b, cin
+	output logic sum, cout,
+	input  logic a, b, cin
 );
 	
-	wire 	   tmp_sum;
-	wire [0:1] tmp_cout;
+	logic		tmp_sum;
+	logic [0:1] tmp_cout;
 
 	ha ha0 (
 		.a(a),

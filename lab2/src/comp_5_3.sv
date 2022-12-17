@@ -1,11 +1,11 @@
 `include "fa.sv"
 
 module comp_5_3 (
-	output wire tin, tout, sum,
-	input wire a, b, c, d
+	output logic cout, tout, sum,
+	input  logic a, b, c, d, tin
 );
 
-	wire tmp_sum;
+	logic tmp_sum;
 	
 	fa fa0 (
 		.a(a),
