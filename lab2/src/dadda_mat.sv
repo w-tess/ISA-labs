@@ -6,7 +6,7 @@
  */
 
 module dadda_mat (
-	output logic [8:0][47:0] lev4,
+	output     logic [8:0][47:0] lev4,
 	input wire logic [8:0][28:0] pp
 );
 
@@ -29,15 +29,15 @@ module dadda_mat (
 	 * respecting the 3-bit shift between adjacent pps
 	 */
 	assign tmpvect[8:0] = {
-		{                  pp[8], 21'b0},
-		{      ~nivect[7], pp[7], 18'b0},
-		{2'b1, ~nivect[6], pp[6], 15'b0},
-		{2'b1, ~nivect[5], pp[5], 12'b0},
-		{2'b1, ~nivect[4], pp[4],  9'b0},
-		{2'b1, ~nivect[3], pp[3],  6'b0},
-		{2'b1, ~nivect[2], pp[2],  3'b0},
-		{2'b1, ~nivect[1], pp[1]       },
-		{~nivect[0], {3{nivect[0]}}, pp[0][28:3]}
+		{					 pp[8][26:0], 21'b0},
+		{			   ~nivect[7], pp[7], 18'b0},
+		{ 1'b0, 2'b11, ~nivect[6], pp[6], 15'b0},
+		{ 4'b0, 2'b11, ~nivect[5], pp[5], 12'b0},
+		{ 7'b0, 2'b11, ~nivect[4], pp[4],  9'b0},
+		{10'b0, 2'b11, ~nivect[3], pp[3],  6'b0},
+		{13'b0, 2'b11, ~nivect[2], pp[2],  3'b0},
+		{16'b0, 2'b11, ~nivect[1], pp[1]       },
+		{18'b0,        ~nivect[0], {3{nivect[0]}}, pp[0][28:3]}
 	};
 
 	/* third continuous assignment:

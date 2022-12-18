@@ -6,7 +6,7 @@ module fa (
 );
 	
 	logic		tmp_sum;
-	logic [0:1] tmp_cout;
+	logic [1:0] tmp_cout;
 
 	ha ha0 (
 		.a(a),

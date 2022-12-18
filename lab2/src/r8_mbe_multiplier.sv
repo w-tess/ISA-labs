@@ -39,7 +39,7 @@ module r8_mbe_multiplier (
 
 	// seq array definition
 	assign seq[8:0] = {
-		{{3{1'b0}}, multiplier[23]}, 
+		{3'b0, multiplier[23]}, 
 		multiplier[23:20],
 		multiplier[20:17],
 		multiplier[17:14],
@@ -50,14 +50,11 @@ module r8_mbe_multiplier (
 		{multiplier[2:0], 1'b0}
 	};
 
+	// Module instantiation 
 	ppg ppg0 (.*);
-
 	be beu[8:0] (.*);
-
 	bs bsu[8:0] (.*);
-
 	dadda_mat dadda_mat0 (.*);
-
 	dadda_tree dadda_tree0 (.*);
 
 	// Perform the final addition to compute the multiplication
