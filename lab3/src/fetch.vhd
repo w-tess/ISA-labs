@@ -67,10 +67,10 @@ architecture beh of fetch is
     end component adder_pc;
 
     -- Signal declarations
-    signal sPC: std_logic_vector(10 downto 0);
-    signal sPC_inc: std_logic_vector(10 downto 0);
-    signal sInstruction: std_logic_vector(31 downto 0);
-    signal sRdy: std_logic;
+    signal sPC: std_logic_vector(10 downto 0) := (others => '0');
+    signal sPC_inc: std_logic_vector(10 downto 0) := (others => '0');
+    signal sInstruction: std_logic_vector(31 downto 0) := (others => '0');
+    signal sRdy: std_logic := '0';
 
 begin --beh
 

@@ -1,35 +1,41 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity mem_wb_pipe is
     Port ( clk   : in  std_logic;
-           reset : in  std_logic;
+           reset_n : in  std_logic;
            enable: in  std_logic;
-           ALU_result : in  signed(63 downto 0);
-           Mem_data     : in  signed(63 downto 0);
-           rd        : in  std_logic_vector(4 downto 0);
-           wb_flag   : in  std_logic;
-           ALU_result_out : out signed(63 downto 0);
-           Mem_data_out      : out signed(63 downto 0);
-           rd_out        : out std_logic_vector(4 downto 0);
-           wb_flag_out   : out std_logic);
+           mem_data_in : in  std_logic_vector(63 downto 0);
+           alu_result_in : in  std_logic_vector(63 downto 0);
+           rd_in : in  std_logic_vector(4 downto 0);
+           wb_memtoreg_in : in std_logic;
+           wb_regwrite_in : in std_logic;
+           mem_data_out : out std_logic_vector(63 downto 0);
+           alu_result_out : out std_logic_vector(63 downto 0);
+           rd_out : out std_logic_vector(4 downto 0);
+           wb_memtoreg_out : out std_logic;
+           wb_regwrite_out : out std_logic
+	);
 end mem_wb_pipe;
 
 architecture behavioral of mem_wb_pipe is
 begin
-    process(clk, reset)
+    process(clk, reset_n)
     begin
-        if (reset = '1') then
-            ALU_result_out <= (others => '0');
-            Mem_data_out      <= (others => '0');
+        if (reset_n = '0') then
+            alu_result_out <= (others => '0');
+            mem_data_out      <= (others => '0');
             rd_out        <= (others => '0');
-            wb_flag_out   <= '0';
+            wb_memtoreg_out    <= '0';
+            wb_regwrite_out <= '0';
         elsif (clk'event and clk = '1') then
             if (enable = '1') then
-                ALU_result_out <= ALU_result;
-                Mem_data_out      <= Mem_data;
-                rd_out        <= rd;
-                wb_flag_out   <= wb_flag;
+                alu_result_out <= alu_result_in;
+                mem_data_out      <= mem_data_in;
+                rd_out        <= rd_in;
+                wb_memtoreg_out    <= wb_memtoreg_in;
+                wb_regwrite_out    <= wb_regwrite_in;
             end if;
         end if;
     end process;
