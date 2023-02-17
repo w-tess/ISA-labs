@@ -33,8 +33,8 @@ architecture beh of tb_fetch is
     signal if_id_enable: std_logic := '0';
     signal if_id_flush: std_logic := '0';
     signal sPC_enable: std_logic := '0';
-    signal sPC_src: std_logic := '0';
-    signal sPC_skip: std_logic_vector(10 downto 0) := (others => '0');
+    signal sPC_src: std_logic := '1';
+    signal sPC_skip: std_logic_vector(10 downto 0) := "01111111000";
     signal sPC: std_logic_vector(10 downto 0) := (others => '0');
     signal sInstruction: std_logic_vector(31 downto 0) := (others => '0');
 
@@ -67,39 +67,32 @@ begin --beh
         rst_n <= '0';
         wait for 5*(Ts/2);
         rst_n <= '1';
+        wait for tco;
+
+        -- Enable the pipeline register & pc
+        if_id_flush <= '1';
+        sPC_enable <= '1';
+
+        -- Set the program counter source to be the default (sequential)
+        sPC_src <= '1';
+
+        -- Wait for 5 clock cycles
+        wait for 5*Ts;   
+
+        -- Set the program counter source to be the jump\branch
+        sPC_skip <= std_logic_vector(to_unsigned(24, sPC_skip'length));
+        sPC_src <= '0'; 
+
+        -- Wait for 5 clock cycles
+        wait for 5*Ts; 
+   
+        -- Flush the pipeline register
+        if_id_flush <= '0';
+        wait for tco;
+        if_id_enable <= '0';
+           
+        -- Wait for one clock cycle
+        wait for Ts;
     end process;
-
-       -- Stimulus process
-       Stimulus: process
-       begin
-           -- Wait for reset to complete
-           wait until rst_n = '1';
-           wait for tco;
-   
-           -- Enable the pipeline register & pc
-           if_id_flush <= '1';
-           sPC_enable <= '1';
-
-           -- Set the program counter source to be the default (sequential)
-           sPC_src <= '1';
-           
-           -- Wait for 5 clock cycles
-           wait for 5*Ts;
-   
-           -- Set the program counter source to be the jump\branch
-           sPC_skip <= std_logic_vector(to_unsigned(24, sPC_skip'length));
-           sPC_src <= '0';
-   
-           -- Wait for 5 clock cycles
-           wait for 5*Ts;
-   
-           -- Flush the pipeline register
-           if_id_flush <= '0';
-           wait for tco;
-           if_id_enable <= '0';
-           
-           -- Wait for one clock cycle
-           wait for Ts;
-       end process;
 
 end architecture;
