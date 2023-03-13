@@ -1,5 +1,7 @@
 # isa-labs
 this group is intended to get the top mark in the isa lab. *photonicarm* is the premium member.
 # William
-- **20/10** ho caricato i file aggiornati dei componenti e il datapath, insieme al testbench
-- **17/10** ho caricato i file dei componenti con cui realizzare il datapath del filtro e i relativi testbench, domani realizzo anche il top level e lo simulo
+*control_unit.vhd*: non capisco come avete deciso le operazioni che la ALU deve fare in base all'istruzione
+es. istruzione *lw*, la ALU fa una *SUB*??? 
+*decode_stage.vhd*: qualcosa non va a riga 168, rs1_content_id non dovrebbe essere ridotto a 11 bit?
+*ex_mem_pipe.vhd*: wb_regwrite_out è un segnale in uscita ma non gli viene assegnato alcun valore nell'architecture

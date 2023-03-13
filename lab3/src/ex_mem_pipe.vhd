@@ -34,6 +34,7 @@ begin
             m_mem_read_out <= '1';
             wb_memtoreg_out <= '0';
             wb_memtoreg_out <= '0';
+			wb_regwrite_out <= '0';
         elsif clk'event and clk = '1' then
             if enable = '1' then
                 Alu_result_out <= Alu_result_in;
@@ -42,6 +43,7 @@ begin
 				m_mem_read_out <= m_mem_read_in;
 				wb_memtoreg_out <= wb_memtoreg_in;
 				wb_memtoreg_out <= wb_memtoreg_in;
+                wb_regwrite_out <= wb_regwrite_in;
             end if;
         end if;
     end process;

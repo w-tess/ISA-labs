@@ -93,7 +93,6 @@ my_ex_mem_pipe : ex_mem_pipe
         m_mem_read_in => m_mem_read,
         wb_memtoreg_in => wb_memtoreg,
         wb_regwrite_in => wb_regwrite,
-        
         Alu_result_out => forward_mem,
         Opd2_out => opd2,
         Rd_out => rd_out,
