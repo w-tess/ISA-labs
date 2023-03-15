@@ -20,7 +20,7 @@ begin --beh
         begin
             -- check if either rs1 or rs2 in ID stage matches rd in EX stage
             -- only if instruction will read the memory
-            if mem_read_id_ex = '1' and (rd_id_ex = rs1_if_id or rd_id_ex = rs2_if_id) then
+            if mem_read_id_ex = '1' and ((rd_id_ex = rs1_if_id or rd_id_ex = rs2_if_id) and rd_id_ex /= "00000") then
                 pc_enable <= '0'; -- stall
                 -- insert bubble
                 if_id_enable <= '0';

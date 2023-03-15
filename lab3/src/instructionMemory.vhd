@@ -49,7 +49,7 @@ begin  -- architecture beh
 	);
  		  
 	-- Process to initialize instructions to memory and to read
-  	process (clk, rst_n)
+  	process (clk, rst_n, adx)
 		FILE fp : text open read_mode is "code.hex";
  		variable read_line : line;
  		variable instruction : std_logic_vector(31 downto 0);
@@ -57,8 +57,8 @@ begin  -- architecture beh
 		if rst_n = '0' then
 			rdy <= '0';
 			wen <= '0' after tco;
-		elsif clk'event and clk = '0' then  --falling clock edge
-      		if not endfile(fp) then
+		elsif (clk'event and clk = '0') or adx'event then  --falling clock edge
+      	if not endfile(fp) then
 				readline(fp, read_line);
       			hread(read_line, instruction);	--content of the line read in -instruction-
 				wen <= '0' after tco;
@@ -66,8 +66,8 @@ begin  -- architecture beh
 				sADX <= sADX + 1 after tco;
 			else
 				rdy <= '1';
-				wen <= '1' after tco;
-				sADX <= adx;
+				wen <= '1';
+				sADX <= adx after tco;
 			end if;
     	end if;
   	end process;

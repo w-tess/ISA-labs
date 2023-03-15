@@ -138,13 +138,13 @@ begin --str
 	ex_alu_op_mux <= ex_alu_op_id when control_sel = '1' else
 					 "000" when control_sel = '0';
 	ex_opd1_sel_mux <= ex_opd1_sel_id when control_sel = '1' else
-					 'X' when control_sel = '0';
+					 '-' when control_sel = '0';
 	ex_opd2_sel_mux <= ex_opd2_sel_id when control_sel = '1' else
-					 'X' when control_sel = '0';
+					 '-' when control_sel = '0';
 	m_mem_read_mux <= m_mem_read_id when control_sel = '1' else
 					 '1' when control_sel = '0';
 	wb_memtoreg_mux <= wb_memtoreg_id when control_sel = '1' else
-					 'X' when control_sel = '0';
+					 '-' when control_sel = '0';
 	wb_regwrite_mux <= wb_memtoreg_id when control_sel = '1' else
 					 '0' when control_sel = '0';
 	

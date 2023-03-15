@@ -48,15 +48,19 @@ begin --beh
     begin  -- process
         
         wait for tco;
-        sRs1_if_id <= "00010";
-        wait for tco;
         sMem_read_id_ex <= '1';
+        sRs1_if_id <= "00010";
+		  sRs2_if_id <= "00110";	
+		  sRd_id_ex <= "10000";
         wait for tco;
-        sRs1_if_id <= "00100";
+        sRd_id_ex <= "00010";
         wait for tco;
-        sRs2_if_id <= "00010";
+		  sRd_id_ex <= "10000";
         wait for tco;
-        sRd_id_ex <= "10000";
+        sRs2_if_id <= "10000";
+		  wait for tco;
+		  sMem_read_id_ex <= '0';
+		  wait;  
 
     end process;
 end architecture;

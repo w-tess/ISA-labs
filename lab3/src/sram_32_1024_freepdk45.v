@@ -35,9 +35,9 @@ module sram_32_1024_freepdk45(
     din0_reg = din0;
     //dout0 = 32'bx;
     if ( !csb0_reg && web0_reg ) 
-      $display($time," Reading %m addr0=%b dout0=%b",addr0_reg,mem[addr0_reg]);
+      $display($time," Reading %m addr0=%b dout0=%x",addr0_reg,mem[addr0_reg]);
     if ( !csb0_reg && !web0_reg )
-      $display($time," Writing %m addr0=%b din0=%b",addr0_reg,din0_reg);
+      $display($time," Writing %m addr0=%b din0=%x",addr0_reg,din0_reg);
   end
 
 reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
