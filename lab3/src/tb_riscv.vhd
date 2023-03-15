@@ -1,4 +1,7 @@
 library ieee;
+library std;
+use ieee.std_logic_unsigned.all;
+use ieee.std_logic_textio.all;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use std.textio.all;
@@ -43,6 +46,5 @@ begin --beh
         rst_n <= '0';
         wait for 5*(Ts/2);
         rst_n <= '1';
-		  wait;
     end process;
 end architecture;

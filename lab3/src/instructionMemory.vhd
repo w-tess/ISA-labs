@@ -1,5 +1,6 @@
 library ieee;
 library std;
+use ieee.std_logic_unsigned.all;
 use ieee.std_logic_textio.all;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -49,7 +50,7 @@ begin  -- architecture beh
  		  
 	-- Process to initialize instructions to memory and to read
   	process (clk, rst_n)
-		FILE fp : text open read_mode is "code.bin";
+		FILE fp : text open read_mode is "code.hex";
  		variable read_line : line;
  		variable instruction : std_logic_vector(31 downto 0);
 	begin
@@ -62,7 +63,7 @@ begin  -- architecture beh
       			hread(read_line, instruction);	--content of the line read in -instruction-
 				wen <= '0' after tco;
         		din <= instruction after tco;
-				sADX <= std_logic_vector(unsigned(sADX) + 1) after tco;
+				sADX <= sADX + 1 after tco;
 			else
 				rdy <= '1';
 				wen <= '1' after tco;
