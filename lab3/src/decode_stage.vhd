@@ -165,7 +165,7 @@ begin --str
 	process (branch_sel_id)
 	begin
 		if branch_sel_id = '1' then
-			branch_addr <= std_logic_vector(resize(SIGNED(imm_id),11) + signed(rs1_content_id));
+			branch_addr <= std_logic_vector(resize(SIGNED(imm_id),11) + resize(signed(rs1_content_id), 11));
 		else
 			branch_addr <= std_logic_vector(resize(SIGNED(imm_id),11) + signed(pc_in));
 		end if;

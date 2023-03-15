@@ -46,5 +46,6 @@ begin --beh
         rst_n <= '0';
         wait for 5*(Ts/2);
         rst_n <= '1';
+        wait;
     end process;
 end architecture;
