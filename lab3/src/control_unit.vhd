@@ -33,7 +33,7 @@ begin
 				branch_sel <= '-';   	 -- 1 for <rs1>,  0 for pc 
 				pc_src <= '1';    	 -- 1 for pc++, 0 for branch target
 				m_mem_read <= '1';  	 -- 1 for reading, 0 for writing
-				wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
+				wb_memtoreg <= '1'; 	 -- 1 for data(memory), 0 for alu result
 				wb_regwrite <= '1';  	 -- 1 for writing, 0 for not writing
 				if_flush_n_out <= '1';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
             when "0100011" => -- sw
@@ -43,7 +43,7 @@ begin
 				branch_sel <= '-';  		-- 1 for <rs1>,  0 for pc 
 				pc_src <= '1';    		-- 1 for pc++, 0 for branch target
 				m_mem_read <= '0';  		-- 1 for reading, 0 for writing
-				wb_memtoreg <= '-'; 		-- 1 for data(memory), 0 for alu result
+				wb_memtoreg <= '0'; 		-- 1 for data(memory), 0 for alu result
 				wb_regwrite <= '0'; 		-- 1 for writing, 0 for not writing
 				if_flush_n_out <= '1';  	-- 0 for cleaning the if/id pipe stage, 1 for not cleaning
             when "1100111" => -- jalr
@@ -125,9 +125,9 @@ begin
 			branch_sel <= '-';   	 -- 1 for <rs1>,  0 for pc 
 			pc_src <= '-';    	 -- 1 for pc++, 0 for branch target
 			m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
-			wb_memtoreg <= '-'; 	 -- 1 for data(memory), 0 for alu result
+			wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
 			wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
-			if_flush_n_out <= '-';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
+			if_flush_n_out <= '1';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
                 end case;
             when "0110011" => -- add, sub, xor
                 case funct3 is
@@ -170,7 +170,7 @@ begin
 				branch_sel <= '-';   	 -- 1 for <rs1>,  0 for pc 
 				pc_src <= '-';    	 -- 1 for pc++, 0 for branch target
 				m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
-				wb_memtoreg <= '-'; 	 -- 1 for data(memory), 0 for alu result
+				wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
 				wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
 				if_flush_n_out <= '-';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
 			   end case;
@@ -181,7 +181,7 @@ begin
 			branch_sel <= '-';   	 -- 1 for <rs1>,  0 for pc 
 			pc_src <= '-';    	 -- 1 for pc++, 0 for branch target
 			m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
-			wb_memtoreg <= '-'; 	 -- 1 for data(memory), 0 for alu result
+			wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
 			wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
 			if_flush_n_out <= '-';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
                     end case;
@@ -224,7 +224,7 @@ begin
 			branch_sel <= '-';   	 -- 1 for <rs1>,  0 for pc 
 			pc_src <= '-';    	 -- 1 for pc++, 0 for branch target
 			m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
-			wb_memtoreg <= '-'; 	 -- 1 for data(memory), 0 for alu result
+			wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
 			wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
 			if_flush_n_out <= '-';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
                 end case;
@@ -235,9 +235,9 @@ begin
 		branch_sel <= '-';   	 -- 1 for <rs1>,  0 for pc 
 		pc_src <= '1';    	 -- 1 for pc++, 0 for branch target
 		m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
-		wb_memtoreg <= '-'; 	 -- 1 for data(memory), 0 for alu result
+		wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
 		wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
-		if_flush_n_out <= '-';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
+		if_flush_n_out <= '1';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
             end case;
     end process;
 end Behavioral;

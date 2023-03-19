@@ -34,7 +34,7 @@ architecture beh of instructionMemory is
   -- Signal declarations
 signal wen: std_logic := '0';
 signal din: std_logic_vector(31 downto 0) := (others => '0');
-signal sADX: std_logic_vector(10 downto 0) := (others => '1');
+signal sADX: std_logic_vector(10 downto 0) := "11111111100";
 
 begin  -- architecture beh
 
@@ -63,9 +63,9 @@ begin  -- architecture beh
       			hread(read_line, instruction);	--content of the line read in -instruction-
 				wen <= '0' after tco;
         		din <= instruction after tco;
-				sADX <= sADX + 1 after tco;
+				sADX <= sADX + 4 after tco;
 			else
-				rdy <= '1';
+				rdy <= '1' after 51 ns;
 				wen <= '1';
 				sADX <= adx after tco;
 			end if;

@@ -16,18 +16,19 @@ end entity if_id_pipe;
 
 architecture rtl of if_id_pipe is
 begin
-    process(clk, rst_n)
+    process(clk, rst_n, flush)
     begin
         if rst_n = '0' then
             pc_out <= (others => '0');
             instruction_out <= (others => '0');
         elsif CLK'event and CLK = '1' then  -- rising clock edge
-            if enable = '1' then
+	    if flush = '0' then
+            	pc_out <= (others => '0');
+           	instruction_out <= (others => '0');
+            elsif enable = '1' then
                 pc_out <= pc_in;
                 instruction_out <= instruction_in;
-            elsif flush = '0' then
-                pc_out <= (others => '0');
-                instruction_out <= (others => '0');
+
             end if;
         end if;
     end process;

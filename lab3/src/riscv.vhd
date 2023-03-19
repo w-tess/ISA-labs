@@ -272,7 +272,7 @@ begin
     	rs1_if_id => rs1_id_sig,
         rs2_if_id => rs2_id_sig,
         rd_id_ex => rd_sig,
-        mem_read_id_ex => m_mem_read_sig,
+        mem_read_id_ex => wb_memtoreg_sig,
         
         pc_enable => pc_enable_sig,
         if_id_enable => if_id_enable_sig,

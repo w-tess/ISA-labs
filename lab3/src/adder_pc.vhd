@@ -11,5 +11,5 @@ end entity adder_pc;
 
 architecture rtl of adder_pc is
 begin
-    pc_inc <= std_logic_vector(unsigned(pc) + 1);
+    pc_inc <= std_logic_vector(unsigned(pc) + 4);
 end architecture rtl;
