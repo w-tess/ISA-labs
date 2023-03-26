@@ -90,7 +90,10 @@ property p_result;
         default:    ##1 alu_res == 'h0;
     endcase
 endproperty
-a_result: assert property (p_result) 
+
+// assert verifica che la property sia vera, in caso positivo 
+// non fa nulla, in caso negativo svolge le istruzioni nell'else
+a_result: assert property (p_result)
 else begin
     err_num++;
     $error("%s", `PRINT_OP(alu_op, alu_a, alu_b, alu_res));
