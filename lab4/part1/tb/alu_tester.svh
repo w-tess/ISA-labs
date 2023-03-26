@@ -54,15 +54,19 @@ class alu_tester #(
     // Constraint to prefer corner cases for operands /10x more likely)
     constraint ab_dist_c {
         alu_op.a dist {
+            // casi estremi che pesano "10"
             0                   :=10, 
             (1<<DWIDTH)-1       :=10,
-            (1<<(DWIDTH-1))-1   :=10, 
+            (1<<(DWIDTH-1))-1   :=10,
+            // i valori nel range pesano "1"
             [1:(1<<DWIDTH)-2]   :=1
         };
         alu_op.b dist {
+            // casi estremi che pesano "10"
             0                   :=10, 
             (1<<DWIDTH)-1       :=10,
             (1<<(DWIDTH-1))-1   :=10, 
+            // i valori nel range pesano "1"
             [1:(1<<DWIDTH)-2]   :=1
         };
     };
@@ -120,8 +124,12 @@ class alu_tester #(
     
     // Prepare a new ALU operation
     function void rand_alu_op();
-        // Obtain random operations and operands
-        assert (this.randomize())   // check the method's return value
+        /* 
+         * Obtain random operations and operands & 
+         * check the method's return value 
+         */
+        // randomize() ha effetto solo su dati "rand"
+        assert (this.randomize())  
         else   $error("ERROR while calling 'randomize()' method");
 
         // Set the ALU interface signals

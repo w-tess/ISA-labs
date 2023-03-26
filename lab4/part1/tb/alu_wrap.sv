@@ -21,6 +21,8 @@
  */
 
 module alu_wrap #(parameter DWIDTH = 32) (
+    // istanzio l'interfaccia per la ALU da testare,
+    // l'istanza si chiama "p"
     alu_if.alu_port p
 );
     alu #(DWIDTH) alu_u (

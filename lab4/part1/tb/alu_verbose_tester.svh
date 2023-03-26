@@ -23,6 +23,9 @@
 `include "alu_tester.svh"
 
 /* ALU verbose tester class */
+// tester analogo ad "alu_tester" ma fornisce più
+// informazioni all'utente sullo sviluppo della 
+// simulazione (è più verbose)
 class alu_verbose_tester #(
     parameter DWIDTH    = 32
 ) extends alu_tester #(DWIDTH);    // inherits methods and variables from alu_tester
@@ -37,8 +40,13 @@ class alu_verbose_tester #(
     endfunction // new()
 
     // Test body
+    // nuova funzione "run_test", fa le stesse operazioni
+    // di "run_test" in "alu_tester" ma fornisce più 
+    // informazioni all'utente sulla simulazione
     task run_test(int unsigned num_cycles);
         // Reset the DUT
+        // ATTENZIONE: dopo la init() abbiamo 
+        // appena superato un posedge
         init();
 
         // Start measuring coverage
