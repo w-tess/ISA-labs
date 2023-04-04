@@ -35,9 +35,15 @@ module alu_tb;
     localparam DWIDTH   = 8;
 
     /* Instantiate ALU interface */
+    // interface come i moduli può avere un port list
+    // quindi quando lo istanzio devo fare il port map,
+    // in questo caso non c'è nessun segnale nel port
+    // dell'interface quindi non passo nulla ad "aif"
     alu_if #(DWIDTH)    aif();
 
     /* Instantiate ALU wrapper */
+    // istanzio il wrapper e passo l'interface specificando
+    // il modport da passare (alu_port)
     alu_wrap #(DWIDTH)  aw(aif.alu_port);
 
     /* Declare a quiet tester object */
@@ -56,7 +62,10 @@ module alu_tb;
         /* Instantiate the tester objects */
         tst = new(aif);
         vtst = new(aif);
-        optst = new(aif, ADD); //???????????
+        // new è un costruttore nel caso di un oggetto
+        // quindi posso passare più parametri per
+        // inizializzare l'oggetto tramite new()
+        optst = new(aif, ADD);
 
         /* Set the number of cycles to test */
         // "$value$plusargs" permette di ricevere da linea di comando
@@ -89,7 +98,7 @@ module alu_tb;
         $display("\nTOTAL FUNCTIONAL COVERAGE: %.2f%%", tst.get_cov());
 
         // Print the number of errors
-        err_num = aif.get_err_num();
+        err_num = aif.get_err_num();                                            //??????????
         $display("");
         if (err_num > 0) begin
             $error("### TEST FAILED with %0d errors", err_num);

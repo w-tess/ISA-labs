@@ -70,6 +70,12 @@ property p_result;
         FUNCLSR:    ##1 alu_res == $past(alu_a >> alu_b[SHIFT_WIDTH-1:0]);
 
         /* Rotate operations */
+        // utilizzo del concetto di "local variables", cap. 16.10 dello standard
+        // quando l'espressione a sinistra nella parentesi è vera (sempre), si
+        // assegna a res l'espressione con lo shift
+        // "##0" indica che l'espressione successiva va valutata al termine 
+        // della precente, "##1" indica di attendere 1 ciclo di clock per 
+        // valutare l'espressione successiva al termine della precedente
         FUNCRL:
             (1, res = alu_a << alu_b[SHIFT_WIDTH-1:0]) ##0
             (1, res |= alu_a >> (DWIDTH - alu_b[SHIFT_WIDTH-1:0])) ##1
@@ -84,7 +90,10 @@ property p_result;
         default:    ##1 alu_res == 'h0;
     endcase
 endproperty
-a_result: assert property (p_result) 
+
+// assert verifica che la property sia vera, in caso positivo 
+// non fa nulla, in caso negativo svolge le istruzioni nell'else
+a_result: assert property (p_result)
 else begin
     err_num++;
     $error("%s", `PRINT_OP(alu_op, alu_a, alu_b, alu_res));

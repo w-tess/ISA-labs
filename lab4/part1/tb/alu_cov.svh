@@ -39,6 +39,7 @@ class alu_cov #(
     // ALU coverage
     covergroup alu_cg;
         // Operations
+        // coverage abilitato se il reset non è attivo (rst_n=1)
         op_cp: coverpoint aif.alu_op iff (aif.rst_n) {
             bins add        = {ADD};
             bins sub        = {SUB};
@@ -53,6 +54,7 @@ class alu_cov #(
         }
 
         // Operands
+        // coverage abilitato se il reset non è attivo (rst_n=1)
         a_cp: coverpoint aif.alu_a iff (aif.rst_n) {
             bins corner[]   = {0, (1<<DWIDTH)-1, (1<<(DWIDTH-1))-1};
             bins others     = default;
