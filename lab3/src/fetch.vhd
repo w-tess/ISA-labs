@@ -15,6 +15,9 @@ entity fetch is
         pc_enable: in std_logic;
         pc_src: in std_logic;
         pc_skip: in std_logic_vector(10 downto 0);
+	instruction_load_f: in std_logic_vector(31 downto 0);
+	address_load_f: in std_logic_vector(10 downto 0);
+	
         pc: out std_logic_vector(10 downto 0);
         instruction: out std_logic_vector(31 downto 0)
     );
@@ -28,8 +31,11 @@ architecture beh of fetch is
             clk: in  std_logic;
             rst_n: in  std_logic;
             adx: in  std_logic_vector(10 downto 0);
-            dout: out std_logic_vector(31 downto 0);
-            rdy: out  std_logic
+	    instruction_load_i: in std_logic_vector(31 downto 0);
+	    address_load_i: in std_logic_vector(10 downto 0);
+
+
+            dout: out std_logic_vector(31 downto 0)
           );
         end component instructionMemory;
 
@@ -50,7 +56,6 @@ architecture beh of fetch is
         port ( 
             clk: in std_logic;
             rst_n: in std_logic;
-            mem_rdy: in std_logic;
             pc_src: in std_logic;
             pc_enable: in std_logic;
             pc_inc: in std_logic_vector(10 downto 0);    --increment
@@ -70,7 +75,6 @@ architecture beh of fetch is
     signal sPC: std_logic_vector(10 downto 0) := (others => '0');
     signal sPC_inc: std_logic_vector(10 downto 0) := (others => '0');
     signal sInstruction: std_logic_vector(31 downto 0) := (others => '0');
-    signal sRdy: std_logic := '0';
     signal sPC_decr: std_logic_vector(10 downto 0) := (others => '0');
 
 begin --beh
@@ -81,15 +85,16 @@ begin --beh
         clk => clk,
         rst_n => rst_n,
         adx => sPC,
-        dout => sInstruction,
-        rdy => sRdy
+	instruction_load_i => instruction_load_f,
+	address_load_i => address_load_f,
+
+        dout => sInstruction
     );
 
     programCounter: program_counter
     port map(
         clk => clk,
         rst_n => rst_n,
-        mem_rdy => sRdy,
         pc_src => pc_src,
         pc_enable => pc_enable,
         pc_inc => sPC_inc,

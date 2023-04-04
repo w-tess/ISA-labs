@@ -14,13 +14,16 @@ end pc_mux;
 architecture beh of pc_mux is
 begin
 
-    process(pc_inc, pc_skip, pc_src)
-    begin
-    if pc_src = '1' then
-        pc_out <= pc_inc;
-    elsif pc_src = '0' then
-        pc_out <= pc_skip;
-    end if;
-    end process;
+    pc_out <= pc_inc when pc_src = '1' else
+              pc_skip when pc_src = '0';
+
+--    process(pc_inc, pc_skip, pc_src)
+--    begin
+--    if pc_src = '1' then
+--        pc_out <= pc_inc;
+--    elsif pc_src = '0' then
+--        pc_out <= pc_skip;
+--    end if;
+--    end process;
 
 end beh;
