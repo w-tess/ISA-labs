@@ -70,7 +70,7 @@ begin --beh
 			sADX <= sADX + 4 after tco;
 		end if;
 	else
-		rst_n_sig <= '1';
+		rst_n_sig <= '1' after Ts;
 	end if;
   	end process;
 end architecture;

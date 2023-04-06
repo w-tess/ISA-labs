@@ -145,7 +145,7 @@ begin --str
 					 '1' when control_sel = '0';
 	wb_memtoreg_mux <= wb_memtoreg_id when control_sel = '1' else
 					 '-' when control_sel = '0';
-	wb_regwrite_mux <= wb_memtoreg_id when control_sel = '1' else
+	wb_regwrite_mux <= wb_regwrite_id when control_sel = '1' else
 					 '0' when control_sel = '0';
 	
 	process (rs1_content_id, rs2_content_id)
