@@ -5,11 +5,11 @@ use ieee.numeric_std.all;
 
 entity data_memory is
   port (
-	clk : in  std_logic;
-	read : in  std_logic;
-	data_write : in  std_logic_vector(63 downto 0);
-    	adx : in  std_logic_vector(10 downto 0);
-  	dout : out std_logic_vector(63 downto 0)
+    clk : in  std_logic;
+    read : in  std_logic;
+    data_write : in  std_logic_vector(31 downto 0);
+    adx : in  std_logic_vector(10 downto 0);
+    dout : out std_logic_vector(31 downto 0)
   );
 end entity data_memory;
 
@@ -38,16 +38,6 @@ data_memory_a : sram_32_1024_freepdk45
       addr0 => adx(9 downto 0),
       din0  => data_write(31 downto 0),
       dout0 => dout(31 downto 0)
-	);
- 		  
-data_memory_b : sram_32_1024_freepdk45
-    port map (
-      clk0  => clk,
-      csb0  => adx(10),
-      web0  => read,
-      addr0 => adx(9 downto 0),
-      din0  => data_write(63 downto 32),
-      dout0 => dout(63 downto 32)
 	);
 
 	

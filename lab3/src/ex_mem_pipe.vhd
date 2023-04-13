@@ -6,15 +6,15 @@ entity ex_mem_pipe is
         clk : in std_logic;
         reset_n : in std_logic;
         enable : in std_logic;
-        Alu_result_in : in std_logic_vector(63 downto 0);
-        Opd2_in : in std_logic_vector(63 downto 0);
+        Alu_result_in : in std_logic_vector(31 downto 0);
+        Opd2_in : in std_logic_vector(31 downto 0);
         Rd_in : in std_logic_vector(4 downto 0);
         m_mem_read_in : in std_logic;
         wb_memtoreg_in : in std_logic;
         wb_regwrite_in : in std_logic;
         
-        Alu_result_out : out std_logic_vector(63 downto 0);
-        Opd2_out : out std_logic_vector(63 downto 0);
+        Alu_result_out : out std_logic_vector(31 downto 0);
+        Opd2_out : out std_logic_vector(31 downto 0);
         Rd_out : out std_logic_vector(4 downto 0);
         m_mem_read_out : out std_logic;
         wb_memtoreg_out : out std_logic;

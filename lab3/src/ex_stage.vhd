@@ -7,10 +7,10 @@ entity ex_stage is
     	clk : in std_logic;
         reset_n : in std_logic;
     	pc_in : in std_logic_vector(10 downto 0);
-    	rs1_data : in std_logic_vector(63 downto 0);
-    	rs2_data : in std_logic_vector(63 downto 0);
-    	imm : in std_logic_vector(63 downto 0);
-    	forward_wb : in std_logic_vector(63 downto 0);
+    	rs1_data : in std_logic_vector(31 downto 0);
+    	rs2_data : in std_logic_vector(31 downto 0);
+    	imm : in std_logic_vector(31 downto 0);
+    	forward_wb : in std_logic_vector(31 downto 0);
     	rd_in : in std_logic_vector(4 downto 0);
     	forwardA : in std_logic_vector(1 downto 0);
     	forwardB : in std_logic_vector(1 downto 0);
@@ -21,8 +21,8 @@ entity ex_stage is
 		wb_memtoreg: in std_logic;
 		wb_regwrite: in std_logic;
 		rd_out : out std_logic_vector(4 downto 0);
-		alu_result : out std_logic_vector(63 downto 0);
-		opd2 : out std_logic_vector(63 downto 0);
+		alu_result : out std_logic_vector(31 downto 0);
+		opd2 : out std_logic_vector(31 downto 0);
 		m_mem_read_out : out std_logic;
 		wb_memtoreg_out : out std_logic;
 		wb_regwrite_out : out std_logic
@@ -32,17 +32,17 @@ end entity;
 architecture str of ex_stage is
 
   -- Signal declarations   
-signal opd1_ex: std_logic_vector(63 downto 0) := (others => '0');
-signal opd2_ex: std_logic_vector(63 downto 0) := (others => '0');
-signal alu_result_ex: std_logic_vector(63 downto 0) := (others => '0');
-signal forward_mem : std_logic_vector(63 downto 0) := (others => '0');
+signal opd1_ex: std_logic_vector(31 downto 0) := (others => '0');
+signal opd2_ex: std_logic_vector(31 downto 0) := (others => '0');
+signal alu_result_ex: std_logic_vector(31 downto 0) := (others => '0');
+signal forward_mem : std_logic_vector(31 downto 0) := (others => '0');
 
 component ALU is
     Port ( 
-        A : in std_logic_vector(63 downto 0);
-        B : in std_logic_vector(63 downto 0);
+        A : in std_logic_vector(31 downto 0);
+        B : in std_logic_vector(31 downto 0);
         alucode : in std_logic_vector(2 downto 0);
-        ALU_Result : out std_logic_vector(63 downto 0)
+        ALU_Result : out std_logic_vector(31 downto 0)
         );
 end component;
 
@@ -51,14 +51,14 @@ component ex_mem_pipe is
         clk : in std_logic;
         reset_n : in std_logic;
         enable : in std_logic;
-        Alu_result_in : in std_logic_vector(63 downto 0);
-        Opd2_in : in std_logic_vector(63 downto 0);
+        Alu_result_in : in std_logic_vector(31 downto 0);
+        Opd2_in : in std_logic_vector(31 downto 0);
         Rd_in : in std_logic_vector(4 downto 0);
         m_mem_read_in : in std_logic;
         wb_memtoreg_in : in std_logic;
         wb_regwrite_in : in std_logic;
-        Alu_result_out : out std_logic_vector(63 downto 0);
-        Opd2_out : out std_logic_vector(63 downto 0);
+        Alu_result_out : out std_logic_vector(31 downto 0);
+        Opd2_out : out std_logic_vector(31 downto 0);
         Rd_out : out std_logic_vector(4 downto 0);
         m_mem_read_out : out std_logic;
         wb_memtoreg_out : out std_logic;
@@ -71,7 +71,7 @@ begin --str
 
 alu_result <= forward_mem;
 
-opd1_ex <= std_logic_vector(resize(signed(pc_in),64)) when forwardA = "00" and ex_opd1_sel = '0' else
+opd1_ex <= std_logic_vector(resize(signed(pc_in),32)) when forwardA = "00" and ex_opd1_sel = '0' else
 		   rs1_data when forwardA = "00" and ex_opd1_sel = '1' else
 		   forward_mem when forwardA = "10" else
 		   forward_wb when forwardA = "01";

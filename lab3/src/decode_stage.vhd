@@ -10,11 +10,11 @@ entity decode_stage is
            pc_in : in std_logic_vector(10 downto 0);
            wr_add : in std_logic_vector(4 downto 0);
            regwr_en : in std_logic;
-           wr_data : in std_logic_vector(63 downto 0);
+           wr_data : in std_logic_vector(31 downto 0);
            control_sel : in std_logic;
-           rddata1 : out std_logic_vector(63 downto 0);
-           rddata2 : out std_logic_vector(63 downto 0);
-           imm : out std_logic_vector(63 downto 0);
+           rddata1 : out std_logic_vector(31 downto 0);
+           rddata2 : out std_logic_vector(31 downto 0);
+           imm : out std_logic_vector(31 downto 0);
            pc_out : out std_logic_vector(10 downto 0);
            branch_addr : out std_logic_vector(10 downto 0);
            rs1_id : out std_logic_vector(4 downto 0);
@@ -36,9 +36,9 @@ end entity;
 architecture str of decode_stage is
 
   -- Signal declarations   
-signal imm_id: std_logic_vector(63 downto 0) := (others => '0');
-signal rs1_content_id: std_logic_vector(63 downto 0) := (others => '0');
-signal rs2_content_id: std_logic_vector(63 downto 0) := (others => '0');
+signal imm_id: std_logic_vector(31 downto 0) := (others => '0');
+signal rs1_content_id: std_logic_vector(31 downto 0) := (others => '0');
+signal rs2_content_id: std_logic_vector(31 downto 0) := (others => '0');
 signal ex_alu_op_id: std_logic_vector(2 downto 0) := (others => '0');
 signal ex_opd1_sel_id : std_logic := '0';
 signal ex_opd2_sel_id : std_logic := '0';
@@ -63,16 +63,16 @@ component register_file is
         rdReg2 : in std_logic_vector(4 downto 0);
         wrReg : in std_logic_vector(4 downto 0);
         regWrite : in std_logic;
-        wrData : in std_logic_vector(63 downto 0);
-        rdData1 : out std_logic_vector(63 downto 0);
-        rdData2 : out std_logic_vector(63 downto 0)
+        wrData : in std_logic_vector(31 downto 0);
+        rdData1 : out std_logic_vector(31 downto 0);
+        rdData2 : out std_logic_vector(31 downto 0)
     );
 end component;
 
 component immediate_gen is
     Port ( 
     	instruction : in  STD_LOGIC_VECTOR (31 downto 0);
-	    immediate   : out STD_LOGIC_VECTOR (63 downto 0)
+	    immediate   : out STD_LOGIC_VECTOR (31 downto 0)
         );
 end component;
 
@@ -102,9 +102,9 @@ component id_ex_pipe is
         reset_n : in std_logic;
         enable : in std_logic;
         pc_in : in std_logic_vector(10 downto 0);
-        Register1_in : in std_logic_vector(63 downto 0);
-        Register2_in : in std_logic_vector(63 downto 0);
-        Immediate_in : in std_logic_vector(63 downto 0);
+        Register1_in : in std_logic_vector(31 downto 0);
+        Register2_in : in std_logic_vector(31 downto 0);
+        Immediate_in : in std_logic_vector(31 downto 0);
         Rs1_in : in std_logic_vector(4 downto 0);
         Rs2_in : in std_logic_vector(4 downto 0);
         Rd_in : in std_logic_vector(4 downto 0);
@@ -115,9 +115,9 @@ component id_ex_pipe is
         wb_memtoreg_in : in std_logic;
         wb_regwrite_in : in std_logic;
         pc_out : out std_logic_vector(10 downto 0);
-        Register1_out : out std_logic_vector(63 downto 0);
-        Register2_out : out std_logic_vector(63 downto 0);
-        Immediate_out : out std_logic_vector(63 downto 0);
+        Register1_out : out std_logic_vector(31 downto 0);
+        Register2_out : out std_logic_vector(31 downto 0);
+        Immediate_out : out std_logic_vector(31 downto 0);
         Rs1_out : out std_logic_vector(4 downto 0);
         Rs2_out : out std_logic_vector(4 downto 0);
         Rd_out : out std_logic_vector(4 downto 0);

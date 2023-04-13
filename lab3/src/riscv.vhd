@@ -5,9 +5,11 @@ use IEEE.NUMERIC_STD.ALL;
 entity riscv is
     port(
     	clk: in std_logic;
-        rst_n: in std_logic;
-	instruction_load: in std_logic_vector(31 downto 0);
-	address_load: in std_logic_vector(10 downto 0)
+		rst_n: in std_logic;
+		instruction_load: in std_logic_vector(31 downto 0);
+		instruction_address: in std_logic_vector(10 downto 0);
+		data_load: in std_logic_vector(31 downto 0);
+		data_address: in std_logic_vector(10 downto 0)
     );
 end entity riscv;
 
@@ -24,11 +26,11 @@ signal pc_sig: std_logic_vector(10 downto 0);
 signal instruction_sig: std_logic_vector(31 downto 0);
 signal wr_add_sig : std_logic_vector(4 downto 0);
 signal regwr_en_sig : std_logic;
-signal wr_data_sig : std_logic_vector(63 downto 0);
+signal wr_data_sig : std_logic_vector(31 downto 0);
 signal control_sel_sig : std_logic;
-signal rddata1_sig : std_logic_vector(63 downto 0);
-signal rddata2_sig : std_logic_vector(63 downto 0);
-signal imm_sig : std_logic_vector(63 downto 0);
+signal rddata1_sig : std_logic_vector(31 downto 0);
+signal rddata2_sig : std_logic_vector(31 downto 0);
+signal imm_sig : std_logic_vector(31 downto 0);
 signal pc_ex_sig : std_logic_vector(10 downto 0);
 signal rs1_out_sig : std_logic_vector(4 downto 0);
 signal rs2_out_sig : std_logic_vector(4 downto 0);
@@ -44,8 +46,8 @@ signal forwardB_sig : std_logic_vector(1 downto 0);
 signal rs1_id_sig : std_logic_vector(4 downto 0);
 signal rs2_id_sig : std_logic_vector(4 downto 0);
 signal rd_out_sig : std_logic_vector(4 downto 0);
-signal alu_result_sig : std_logic_vector(63 downto 0);
-signal opd2_sig : std_logic_vector(63 downto 0);
+signal alu_result_sig : std_logic_vector(31 downto 0);
+signal opd2_sig : std_logic_vector(31 downto 0);
 signal m_mem_read_out_sig : std_logic;
 signal wb_memtoreg_out_sig : std_logic;
 signal wb_regwrite_out_sig : std_logic;
@@ -59,8 +61,8 @@ component fetch is
         pc_enable: in std_logic;
         pc_src: in std_logic;
         pc_skip: in std_logic_vector(10 downto 0);
-	instruction_load_f: in std_logic_vector(31 downto 0);
-	address_load_f: in std_logic_vector(10 downto 0);
+		instruction_load_f: in std_logic_vector(31 downto 0);
+		address_load_f: in std_logic_vector(10 downto 0);
 
         pc: out std_logic_vector(10 downto 0);
         instruction: out std_logic_vector(31 downto 0)
@@ -75,11 +77,11 @@ component decode_stage is
            pc_in : in std_logic_vector(10 downto 0);
            wr_add : in std_logic_vector(4 downto 0);
            regwr_en : in std_logic;
-           wr_data : in std_logic_vector(63 downto 0);
+           wr_data : in std_logic_vector(31 downto 0);
            control_sel : in std_logic;
-           rddata1 : out std_logic_vector(63 downto 0);
-           rddata2 : out std_logic_vector(63 downto 0);
-           imm : out std_logic_vector(63 downto 0);
+           rddata1 : out std_logic_vector(31 downto 0);
+           rddata2 : out std_logic_vector(31 downto 0);
+           imm : out std_logic_vector(31 downto 0);
            pc_out : out std_logic_vector(10 downto 0);
            branch_addr : out std_logic_vector(10 downto 0);
            rs1_id : out std_logic_vector(4 downto 0);
@@ -103,10 +105,10 @@ component ex_stage is
     	clk : in std_logic;
         reset_n : in std_logic;
     	pc_in : in std_logic_vector(10 downto 0);
-    	rs1_data : in std_logic_vector(63 downto 0);
-    	rs2_data : in std_logic_vector(63 downto 0);
-    	imm : in std_logic_vector(63 downto 0);
-    	forward_wb : in std_logic_vector(63 downto 0);
+    	rs1_data : in std_logic_vector(31 downto 0);
+    	rs2_data : in std_logic_vector(31 downto 0);
+    	imm : in std_logic_vector(31 downto 0);
+    	forward_wb : in std_logic_vector(31 downto 0);
     	rd_in : in std_logic_vector(4 downto 0);
     	forwardA : in std_logic_vector(1 downto 0);
     	forwardB : in std_logic_vector(1 downto 0);
@@ -117,8 +119,8 @@ component ex_stage is
 		wb_memtoreg: in std_logic;
 		wb_regwrite: in std_logic;
 		rd_out : out std_logic_vector(4 downto 0);
-		alu_result : out std_logic_vector(63 downto 0);
-		opd2 : out std_logic_vector(63 downto 0);
+		alu_result : out std_logic_vector(31 downto 0);
+		opd2 : out std_logic_vector(31 downto 0);
 		m_mem_read_out : out std_logic;
 		wb_memtoreg_out : out std_logic;
 		wb_regwrite_out : out std_logic
@@ -130,13 +132,16 @@ component mem_stage is
     	clk : in std_logic;
         reset_n : in std_logic;
     	rd_in : in  std_logic_vector(4 downto 0);
-    	Alu_result_in : in std_logic_vector(63 downto 0);
-        Opd2_in : in std_logic_vector(63 downto 0);
+    	Alu_result_in : in std_logic_vector(31 downto 0);
+        Opd2_in : in std_logic_vector(31 downto 0);
         m_mem_read_in : in std_logic;
         wb_memtoreg_in : in std_logic; -- 1 for data(memory), 0 for alu result
-        wb_regwrite_in : in std_logic;
+        wb_regwrite_in : in std_logic;		
+		data_load: in std_logic_vector(31 downto 0);
+		data_address: in std_logic_vector(10 downto 0);
+
     	rd_out : out std_logic_vector(4 downto 0);
-    	wr_data_out : out std_logic_vector(63 downto 0);
+    	wr_data_out : out std_logic_vector(31 downto 0);
         wb_regwrite_out : out std_logic
         );
 end component;
@@ -179,7 +184,7 @@ begin
         pc_enable => pc_enable_sig,
         pc_src => pc_src_sig,
         pc_skip => brach_addr_sig,
-	address_load_f => address_load,
+	address_load_f => instruction_address,
 	instruction_load_f => instruction_load,
         
         pc => pc_sig,
@@ -254,7 +259,9 @@ begin
         m_mem_read_in => m_mem_read_out_sig,
         wb_memtoreg_in => wb_memtoreg_out_sig, -- 1 for data(memory), 0 for alu result
         wb_regwrite_in => wb_regwrite_out_sig,
-    	
+    	data_load => data_load,
+		data_address => data_address,
+
     	rd_out => wr_add_sig,
     	wr_data_out => wr_data_sig,
         wb_regwrite_out => regwr_en_sig

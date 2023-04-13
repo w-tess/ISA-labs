@@ -6,13 +6,13 @@ entity mem_wb_pipe is
     Port ( clk   : in  std_logic;
            reset_n : in  std_logic;
            enable: in  std_logic;
-           mem_data_in : in  std_logic_vector(63 downto 0);
-           alu_result_in : in  std_logic_vector(63 downto 0);
+           mem_data_in : in  std_logic_vector(31 downto 0);
+           alu_result_in : in  std_logic_vector(31 downto 0);
            rd_in : in  std_logic_vector(4 downto 0);
            wb_memtoreg_in : in std_logic;
            wb_regwrite_in : in std_logic;
-           mem_data_out : out std_logic_vector(63 downto 0);
-           alu_result_out : out std_logic_vector(63 downto 0);
+           mem_data_out : out std_logic_vector(31 downto 0);
+           alu_result_out : out std_logic_vector(31 downto 0);
            rd_out : out std_logic_vector(4 downto 0);
            wb_memtoreg_out : out std_logic;
            wb_regwrite_out : out std_logic
