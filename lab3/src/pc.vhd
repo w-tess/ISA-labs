@@ -18,7 +18,7 @@ begin
     process(clk, rst_n)
     begin
         if rst_n = '0' then
-            pc_out <= (others => '0');
+            pc_out <= "11111111100";
         elsif clk'event and clk = '1'  then 
             if pc_enable = '1' then
                 pc_out <= pc_in;

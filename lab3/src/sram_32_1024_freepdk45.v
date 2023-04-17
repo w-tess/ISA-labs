@@ -29,6 +29,7 @@ module sram_32_1024_freepdk45(
   // All inputs are registers
   always @(posedge clk0)
   begin
+    #1
     csb0_reg = csb0;
     web0_reg = web0;
     addr0_reg = addr0;

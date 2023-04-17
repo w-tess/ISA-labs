@@ -17,26 +17,34 @@ architecture beh of tb_riscv is
         port(
             clk: in std_logic;
             rst_n: in std_logic;
-	    instruction_load: in std_logic_vector(31 downto 0);
-	    address_load: in std_logic_vector(10 downto 0)
+	        instruction_load: in std_logic_vector(31 downto 0);
+	        instruction_address: in std_logic_vector(10 downto 0);
+            data_load: in std_logic_vector(31 downto 0);
+            data_address: in std_logic_vector(10 downto 0)
         );
     end component;
 
     --signal declarations
     signal clk: std_logic := '0';
     signal rst_n_sig: std_logic := '0';
-    signal sADX: std_logic_vector(10 downto 0) := "11111111100";
+    signal im_ready: std_logic := '0';
+    signal dm_ready: std_logic := '0';
+    signal iADX: std_logic_vector(10 downto 0) := "11111111100";
+    signal iin: std_logic_vector(31 downto 0) := (others => '0');
+    signal dADX: std_logic_vector(10 downto 0) := "11111111100";
     signal din: std_logic_vector(31 downto 0) := (others => '0');
 
 begin --beh
-
+    rst_n_sig <= im_ready and dm_ready;
     --instantiate the dut
     riscv_lite: riscv
     port map(
         clk => clk,
         rst_n => rst_n_sig,
-	instruction_load => din,
-	address_load => sADX
+        instruction_load => iin,
+        instruction_address => iADX,
+        data_load => din,
+        data_address => dADX
     );
 
     -- Clock generator
@@ -63,14 +71,32 @@ begin --beh
 	begin
       	if not endfile(fp) then
 		if (clk'event and clk = '0') then  --falling clock edge
-			rst_n_sig <= '0';
+			im_ready <= '0';
 			readline(fp, read_line);
 	      		hread(read_line, instruction);	--content of the line read in -instruction-	
-	        	din <= instruction after tco;
-			sADX <= sADX + 4 after tco;
+	        iin <= instruction after tco;
+			iADX <= iADX + 4 after tco;
 		end if;
 	else
-		rst_n_sig <= '1';
+		im_ready <= '1' after Ts;
 	end if;
   	end process;
+
+-- Process to initialize data memory
+process (clk)
+    FILE fp2 : text open read_mode is "data.hex";
+     variable read_line_data : line;
+     variable read_data : std_logic_vector(31 downto 0);
+begin
+    if not endfile(fp2) then
+        if (clk'event and clk = '0') then  --falling clock edge
+            dm_ready <= '0';
+            readline(fp2, read_line_data);
+            hread(read_line_data, read_data);	--content of the line read in -data-	
+            din <= read_data after tco;
+            dADX <= dADX + 4 after tco;
+        end if;
+        dm_ready <= '1';
+    end if;
+  end process;
 end architecture;

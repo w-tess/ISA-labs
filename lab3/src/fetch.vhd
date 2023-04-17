@@ -78,18 +78,7 @@ architecture beh of fetch is
     signal sPC_decr: std_logic_vector(10 downto 0) := (others => '0');
 
 begin --beh
-    sPC_decr <= sPC - 4;
-
-    instruction_memory: instructionMemory
-    port map(
-        clk => clk,
-        rst_n => rst_n,
-        adx => sPC,
-	instruction_load_i => instruction_load_f,
-	address_load_i => address_load_f,
-
-        dout => sInstruction
-    );
+    sPC_decr <= sPC;
 
     programCounter: program_counter
     port map(
@@ -118,6 +107,17 @@ begin --beh
         instruction_in => sInstruction,
         pc_out => pc,
         instruction_out => instruction
+    );
+    
+    instruction_memory: instructionMemory
+    port map(
+        clk => clk,
+        rst_n => rst_n,
+        adx => sPC,
+	instruction_load_i => instruction_load_f,
+	address_load_i => address_load_f,
+
+        dout => sInstruction
     );
 
 end architecture beh;

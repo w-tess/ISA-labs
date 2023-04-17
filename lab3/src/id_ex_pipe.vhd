@@ -7,9 +7,9 @@ entity id_ex_pipe is
         reset_n : in std_logic;
         enable : in std_logic;
         pc_in : in std_logic_vector(10 downto 0);
-        Register1_in : in std_logic_vector(63 downto 0);
-        Register2_in : in std_logic_vector(63 downto 0);
-        Immediate_in : in std_logic_vector(63 downto 0);
+        Register1_in : in std_logic_vector(31 downto 0);
+        Register2_in : in std_logic_vector(31 downto 0);
+        Immediate_in : in std_logic_vector(31 downto 0);
         Rs1_in : in std_logic_vector(4 downto 0);
         Rs2_in : in std_logic_vector(4 downto 0);
         Rd_in : in std_logic_vector(4 downto 0);
@@ -20,9 +20,9 @@ entity id_ex_pipe is
         wb_memtoreg_in : in std_logic;
         wb_regwrite_in : in std_logic;
         pc_out : out std_logic_vector(10 downto 0);
-        Register1_out : out std_logic_vector(63 downto 0);
-        Register2_out : out std_logic_vector(63 downto 0);
-        Immediate_out : out std_logic_vector(63 downto 0);
+        Register1_out : out std_logic_vector(31 downto 0);
+        Register2_out : out std_logic_vector(31 downto 0);
+        Immediate_out : out std_logic_vector(31 downto 0);
         Rs1_out : out std_logic_vector(4 downto 0);
         Rs2_out : out std_logic_vector(4 downto 0);
         Rd_out : out std_logic_vector(4 downto 0);

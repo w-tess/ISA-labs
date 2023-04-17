@@ -7,13 +7,16 @@ entity mem_stage is
     	clk : in std_logic;
         reset_n : in std_logic;
     	rd_in : in  std_logic_vector(4 downto 0);
-    	Alu_result_in : in std_logic_vector(63 downto 0);
-        Opd2_in : in std_logic_vector(63 downto 0);
+    	Alu_result_in : in std_logic_vector(31 downto 0);
+        Opd2_in : in std_logic_vector(31 downto 0);
         m_mem_read_in : in std_logic;
         wb_memtoreg_in : in std_logic; -- 1 for data(memory), 0 for alu result
-        wb_regwrite_in : in std_logic;
+        wb_regwrite_in : in std_logic;		
+		data_load: in std_logic_vector(31 downto 0);
+		data_address: in std_logic_vector(10 downto 0);
+
     	rd_out : out std_logic_vector(4 downto 0);
-    	wr_data_out : out std_logic_vector(63 downto 0);
+    	wr_data_out : out std_logic_vector(31 downto 0);
         wb_regwrite_out : out std_logic
     	);
 end entity;
@@ -21,23 +24,27 @@ end entity;
 architecture str of mem_stage is
 
   -- Signal declarations   
-signal mem_data: std_logic_vector(63 downto 0) := (others => '0');
-signal mem_data_wb: std_logic_vector(63 downto 0) := (others => '0');
-signal alu_result_wb: std_logic_vector(63 downto 0) := (others => '0');
+signal mem_data: std_logic_vector(31 downto 0) := (others => '0');
+signal mem_data_wb: std_logic_vector(31 downto 0) := (others => '0');
+signal alu_result_wb: std_logic_vector(31 downto 0) := (others => '0');
 signal wb_memtoreg_wb: std_logic;
+
+signal word_to_write: std_logic_vector(31 downto 0) := (others => '0');
+signal address_to_write: std_logic_vector(10 downto 0) := (others => '0');
+signal we_n: std_logic;
 
 component mem_wb_pipe is
     Port ( 
 		clk   : in  std_logic;
 		reset_n : in  std_logic;
 		enable: in  std_logic;
-		mem_data_in : in  std_logic_vector(63 downto 0);
-		alu_result_in : in  std_logic_vector(63 downto 0);
+		mem_data_in : in  std_logic_vector(31 downto 0);
+		alu_result_in : in  std_logic_vector(31 downto 0);
 		rd_in : in  std_logic_vector(4 downto 0);
 		wb_memtoreg_in : in std_logic;
 		wb_regwrite_in : in std_logic;
-		mem_data_out : out std_logic_vector(63 downto 0);
-		alu_result_out : out std_logic_vector(63 downto 0);
+		mem_data_out : out std_logic_vector(31 downto 0);
+		alu_result_out : out std_logic_vector(31 downto 0);
 		rd_out : out std_logic_vector(4 downto 0);
 		wb_memtoreg_out : out std_logic;
 		wb_regwrite_out : out std_logic
@@ -48,17 +55,25 @@ component data_memory is
     Port ( 
 		clk : in  std_logic;
 		read : in  std_logic;
-		data_write : in  std_logic_vector(63 downto 0);
+		data_write : in  std_logic_vector(31 downto 0);
 		adx : in  std_logic_vector(10 downto 0);
-		dout : out std_logic_vector(63 downto 0)
+		dout : out std_logic_vector(31 downto 0)
     );
 end component;
 
 begin
 
 wr_data_out <= 	mem_data_wb when wb_memtoreg_in = '1' else
-		alu_result_wb when wb_memtoreg_in = '0';
+				alu_result_wb when wb_memtoreg_in = '0';
 
+word_to_write <= Opd2_in when reset_n = '1' else
+				 data_load when reset_n = '0';
+
+address_to_write <= Alu_result_in(10 downto 0) when reset_n = '1' else
+					data_address when reset_n = '0';
+
+we_n <= m_mem_read_in when reset_n = '1' else
+		'0' when reset_n = '0';
 
 my_mem_wb_pipe : mem_wb_pipe
 	port map (
@@ -80,9 +95,9 @@ my_mem_wb_pipe : mem_wb_pipe
 my_data_memory : data_memory
 	port map (
 		clk 		 => clk,
-		read 		 => m_mem_read_in,
-		data_write 	 => Opd2_in,
-		adx 		 => Alu_result_in(10 downto 0),
+		read 		 => we_n,
+		data_write 	 => word_to_write,
+		adx 		 => address_to_write(10 downto 0),
 		dout 		 => mem_data
 	);
 end architecture str;

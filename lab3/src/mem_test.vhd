@@ -8,10 +8,10 @@ entity mem_test is
     CLK     : in  std_logic;
     RSTn    : in  std_logic;
     WEN     : in  std_logic;
-    DIN     : in  std_logic_vector(63 downto 0);
+    DIN     : in  std_logic_vector(31 downto 0);
     WADX    : in  std_logic_vector(10 downto 0);
     START   : in  std_logic;
-    DOUT    : out std_logic_vector(63 downto 0));
+    DOUT    : out std_logic_vector(31 downto 0));
 end mem_test;
 
 architecture beh of mem_test is
@@ -34,7 +34,7 @@ architecture beh of mem_test is
   signal sSTART_reg : std_logic;
   signal sSTART_reg2 : std_logic;  
   signal sWEN_reg : std_logic;
-  signal sDIN_reg : std_logic_vector(63 downto 0);
+  signal sDIN_reg : std_logic_vector(31 downto 0);
   signal sWADX_reg : std_logic_vector(10 downto 0);
 
   signal sRWn : std_logic;
@@ -55,9 +55,9 @@ architecture beh of mem_test is
 
   signal s_radx_stop : std_logic;
 
-  signal s_value : std_logic_vector(63 downto 0);
-  signal s_sum : std_logic_vector(63 downto 0);
-  signal s_result : std_logic_vector(63 downto 0);  
+  signal s_value : std_logic_vector(31 downto 0);
+  signal s_sum : std_logic_vector(31 downto 0);
+  signal s_result : std_logic_vector(31 downto 0);  
   
 begin  -- architecture beh
 
@@ -159,7 +159,7 @@ begin  -- architecture beh
       csb0  => s_csb_a,
       web0  => s_web_a,
       addr0 => s_addr,
-      din0  => sDIN_reg(63 downto 32),
+      din0  => sDIN_reg(31 downto 32),
       dout0 => s_dout_a1);
 
   ib0 : sram_32_1024_freepdk45
@@ -177,7 +177,7 @@ begin  -- architecture beh
       csb0  => s_csb_b,
       web0  => s_web_b,
       addr0 => s_addr,
-      din0  => sDIN_reg(63 downto 32),
+      din0  => sDIN_reg(31 downto 32),
       dout0 => s_dout_b1);
 
   s_value <= s_dout_a1 & s_dout_a0 after tpd when (s_is_a_reg = '1') else s_dout_b1 & s_dout_b0 after tpd;
