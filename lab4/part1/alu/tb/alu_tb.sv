@@ -98,7 +98,7 @@ module alu_tb;
         $display("\nTOTAL FUNCTIONAL COVERAGE: %.2f%%", tst.get_cov());
 
         // Print the number of errors
-        err_num = aif.get_err_num();                                            //??????????
+        err_num = aif.get_err_num();
         $display("");
         if (err_num > 0) begin
             $error("### TEST FAILED with %0d errors", err_num);

@@ -1,0 +1,147 @@
+COVERGROUP COVERAGE:
+----------------------------------------------------------------------------------------------------------
+Covergroup                                             Metric       Goal       Bins    Status               
+                                                                                                         
+----------------------------------------------------------------------------------------------------------
+ TYPE /alu_tb_sv_unit/alu_cov/alu_cov__1/alu_cg        96.87%        100          -    Uncovered            
+    covered/total bins:                                   124        128          -                      
+    missing/total bins:                                     4        128          -                      
+    % Hit:                                             96.87%        100          -                      
+    Coverpoint a_cp                                    96.87%        100          -    Uncovered            
+        covered/total bins:                                62         64          -                      
+        missing/total bins:                                 2         64          -                      
+        % Hit:                                         96.87%        100          -                      
+        bin ranges[0]                                       2          1          -    Covered              
+        bin ranges[1]                                       3          1          -    Covered              
+        bin ranges[2]                                       6          1          -    Covered              
+        bin ranges[3]                                       4          1          -    Covered              
+        bin ranges[4]                                       1          1          -    Covered              
+        bin ranges[5]                                       0          1          -    ZERO                 
+        bin ranges[6]                                       3          1          -    Covered              
+        bin ranges[7]                                       1          1          -    Covered              
+        bin ranges[8]                                       5          1          -    Covered              
+        bin ranges[9]                                       1          1          -    Covered              
+        bin ranges[10]                                      4          1          -    Covered              
+        bin ranges[11]                                      4          1          -    Covered              
+        bin ranges[12]                                      2          1          -    Covered              
+        bin ranges[13]                                      0          1          -    ZERO                 
+        bin ranges[14]                                      1          1          -    Covered              
+        bin ranges[15]                                      3          1          -    Covered              
+        bin ranges[16]                                      4          1          -    Covered              
+        bin ranges[17]                                      2          1          -    Covered              
+        bin ranges[18]                                      5          1          -    Covered              
+        bin ranges[19]                                      1          1          -    Covered              
+        bin ranges[20]                                      3          1          -    Covered              
+        bin ranges[21]                                      4          1          -    Covered              
+        bin ranges[22]                                      3          1          -    Covered              
+        bin ranges[23]                                      2          1          -    Covered              
+        bin ranges[24]                                      2          1          -    Covered              
+        bin ranges[25]                                      3          1          -    Covered              
+        bin ranges[26]                                      6          1          -    Covered              
+        bin ranges[27]                                      3          1          -    Covered              
+        bin ranges[28]                                      2          1          -    Covered              
+        bin ranges[29]                                      2          1          -    Covered              
+        bin ranges[30]                                      2          1          -    Covered              
+        bin ranges[31]                                      3          1          -    Covered              
+        bin ranges[32]                                      2          1          -    Covered              
+        bin ranges[33]                                      4          1          -    Covered              
+        bin ranges[34]                                      2          1          -    Covered              
+        bin ranges[35]                                      4          1          -    Covered              
+        bin ranges[36]                                      3          1          -    Covered              
+        bin ranges[37]                                      4          1          -    Covered              
+        bin ranges[38]                                      4          1          -    Covered              
+        bin ranges[39]                                      6          1          -    Covered              
+        bin ranges[40]                                      2          1          -    Covered              
+        bin ranges[41]                                      1          1          -    Covered              
+        bin ranges[42]                                      2          1          -    Covered              
+        bin ranges[43]                                      3          1          -    Covered              
+        bin ranges[44]                                      4          1          -    Covered              
+        bin ranges[45]                                      4          1          -    Covered              
+        bin ranges[46]                                      4          1          -    Covered              
+        bin ranges[47]                                      5          1          -    Covered              
+        bin ranges[48]                                      4          1          -    Covered              
+        bin ranges[49]                                      5          1          -    Covered              
+        bin ranges[50]                                      1          1          -    Covered              
+        bin ranges[51]                                      1          1          -    Covered              
+        bin ranges[52]                                      2          1          -    Covered              
+        bin ranges[53]                                      4          1          -    Covered              
+        bin ranges[54]                                      2          1          -    Covered              
+        bin ranges[55]                                      4          1          -    Covered              
+        bin ranges[56]                                      2          1          -    Covered              
+        bin ranges[57]                                      2          1          -    Covered              
+        bin ranges[58]                                     11          1          -    Covered              
+        bin ranges[59]                                      3          1          -    Covered              
+        bin ranges[60]                                      3          1          -    Covered              
+        bin ranges[61]                                      4          1          -    Covered              
+        bin ranges[62]                                      6          1          -    Covered              
+        bin ranges[63]                                      5          1          -    Covered              
+    Coverpoint b_cp                                    96.87%        100          -    Uncovered            
+        covered/total bins:                                62         64          -                      
+        missing/total bins:                                 2         64          -                      
+        % Hit:                                         96.87%        100          -                      
+        bin ranges[0]                                       1          1          -    Covered              
+        bin ranges[1]                                       1          1          -    Covered              
+        bin ranges[2]                                       1          1          -    Covered              
+        bin ranges[3]                                       6          1          -    Covered              
+        bin ranges[4]                                       4          1          -    Covered              
+        bin ranges[5]                                       4          1          -    Covered              
+        bin ranges[6]                                       1          1          -    Covered              
+        bin ranges[7]                                       4          1          -    Covered              
+        bin ranges[8]                                       6          1          -    Covered              
+        bin ranges[9]                                       2          1          -    Covered              
+        bin ranges[10]                                      2          1          -    Covered              
+        bin ranges[11]                                      4          1          -    Covered              
+        bin ranges[12]                                      5          1          -    Covered              
+        bin ranges[13]                                      5          1          -    Covered              
+        bin ranges[14]                                      3          1          -    Covered              
+        bin ranges[15]                                      3          1          -    Covered              
+        bin ranges[16]                                      4          1          -    Covered              
+        bin ranges[17]                                      2          1          -    Covered              
+        bin ranges[18]                                      2          1          -    Covered              
+        bin ranges[19]                                      2          1          -    Covered              
+        bin ranges[20]                                      3          1          -    Covered              
+        bin ranges[21]                                      1          1          -    Covered              
+        bin ranges[22]                                      1          1          -    Covered              
+        bin ranges[23]                                      7          1          -    Covered              
+        bin ranges[24]                                      4          1          -    Covered              
+        bin ranges[25]                                      5          1          -    Covered              
+        bin ranges[26]                                      3          1          -    Covered              
+        bin ranges[27]                                      2          1          -    Covered              
+        bin ranges[28]                                      3          1          -    Covered              
+        bin ranges[29]                                      4          1          -    Covered              
+        bin ranges[30]                                      3          1          -    Covered              
+        bin ranges[31]                                      2          1          -    Covered              
+        bin ranges[32]                                      6          1          -    Covered              
+        bin ranges[33]                                      3          1          -    Covered              
+        bin ranges[34]                                      3          1          -    Covered              
+        bin ranges[35]                                      0          1          -    ZERO                 
+        bin ranges[36]                                      4          1          -    Covered              
+        bin ranges[37]                                      5          1          -    Covered              
+        bin ranges[38]                                      3          1          -    Covered              
+        bin ranges[39]                                      0          1          -    ZERO                 
+        bin ranges[40]                                      3          1          -    Covered              
+        bin ranges[41]                                      1          1          -    Covered              
+        bin ranges[42]                                      3          1          -    Covered              
+        bin ranges[43]                                      6          1          -    Covered              
+        bin ranges[44]                                      5          1          -    Covered              
+        bin ranges[45]                                      3          1          -    Covered              
+        bin ranges[46]                                      5          1          -    Covered              
+        bin ranges[47]                                      2          1          -    Covered              
+        bin ranges[48]                                      3          1          -    Covered              
+        bin ranges[49]                                      4          1          -    Covered              
+        bin ranges[50]                                      2          1          -    Covered              
+        bin ranges[51]                                      1          1          -    Covered              
+        bin ranges[52]                                      1          1          -    Covered              
+        bin ranges[53]                                      2          1          -    Covered              
+        bin ranges[54]                                      5          1          -    Covered              
+        bin ranges[55]                                      6          1          -    Covered              
+        bin ranges[56]                                      4          1          -    Covered              
+        bin ranges[57]                                      3          1          -    Covered              
+        bin ranges[58]                                      2          1          -    Covered              
+        bin ranges[59]                                      4          1          -    Covered              
+        bin ranges[60]                                      2          1          -    Covered              
+        bin ranges[61]                                      2          1          -    Covered              
+        bin ranges[62]                                      3          1          -    Covered              
+        bin ranges[63]                                      4          1          -    Covered              
+
+TOTAL COVERGROUP COVERAGE: 96.87%  COVERGROUP TYPES: 1
