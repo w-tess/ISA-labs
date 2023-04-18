@@ -181,7 +181,7 @@ begin --str
         regWrite => regwr_en,
         wrData => wr_data,
         rdData1 => rs1_content_id,
-        rdData2 => rs1_content_id
+        rdData2 => rs2_content_id
     );           
      
     my_immediate_gen : immediate_gen

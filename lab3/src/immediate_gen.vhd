@@ -12,7 +12,7 @@ architecture Behavioral of immediate_gen is
 begin
     opcode <= instruction(6 downto 0);
     
-    process (opcode)
+    process (opcode, instruction)
     begin
         case opcode is
             when "0010011" =>  -- I type instruction

@@ -28,7 +28,7 @@ begin
                 ALU_Result <= std_logic_vector(shift_left(unsigned(A), to_integer(unsigned(B(5 downto 0)))));
             when "101" => -- right shift sign extended
                 ALU_Result <= std_logic_vector(shift_right(signed(A), to_integer(unsigned(B(5 downto 0)))));
-            when "110" => -- increment
+            when "110" => -- increment pc
                 ALU_Result <= std_logic_vector(signed(A) + 4);
             when others => 
                 ALU_Result <= (others => 'X');

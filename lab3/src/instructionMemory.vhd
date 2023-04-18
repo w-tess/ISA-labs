@@ -35,7 +35,7 @@ architecture beh of instructionMemory is
   
   -- Signal declarations
 signal wen: std_logic := '1';
-
+signal data_out: std_logic_vector(31 downto 0) := (others => '0');
 signal sADX: std_logic_vector(10 downto 0);
 
 begin  -- architecture beh
@@ -47,9 +47,10 @@ begin  -- architecture beh
       web0  => wen,
       addr0 => sADX(9 downto 0),
       din0  => instruction_load_i(31 downto 0),
-      dout0 => dout(31 downto 0)
+      dout0 => data_out
 	);
  		  
+  dout <= (others => '0') when adx = "11111111100" else data_out;
 
 	wen <= '0' when rst_n = '0' else
 	       '1' when rst_n = '1';

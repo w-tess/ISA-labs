@@ -126,7 +126,7 @@ begin
 			pc_src <= '-';    	 -- 1 for pc++, 0 for branch target
 			m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
 			wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
-			wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
+			wb_regwrite <= '0';  	 -- 1 for writing, 0 for not writing
 			if_flush_n_out <= '1';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
                 end case;
             when "0110011" => -- add, sub, xor
@@ -171,7 +171,7 @@ begin
 				pc_src <= '-';    	 -- 1 for pc++, 0 for branch target
 				m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
 				wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
-				wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
+				wb_regwrite <= '0';  	 -- 1 for writing, 0 for not writing
 				if_flush_n_out <= '-';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
 			   end case;
                     when others => -- invalid funct3
@@ -182,7 +182,7 @@ begin
 			pc_src <= '-';    	 -- 1 for pc++, 0 for branch target
 			m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
 			wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
-			wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
+			wb_regwrite <= '0';  	 -- 1 for writing, 0 for not writing
 			if_flush_n_out <= '-';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
                     end case;
             when "1100011" => -- bge, bne
@@ -225,7 +225,7 @@ begin
 			pc_src <= '-';    	 -- 1 for pc++, 0 for branch target
 			m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
 			wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
-			wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
+			wb_regwrite <= '0';  	 -- 1 for writing, 0 for not writing
 			if_flush_n_out <= '-';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
                 end case;
             when others =>
@@ -236,7 +236,7 @@ begin
 		pc_src <= '1';    	 -- 1 for pc++, 0 for branch target
 		m_mem_read <= '-';  	 -- 1 for reading, 0 for writing
 		wb_memtoreg <= '0'; 	 -- 1 for data(memory), 0 for alu result
-		wb_regwrite <= '-';  	 -- 1 for writing, 0 for not writing
+		wb_regwrite <= '0';  	 -- 1 for writing, 0 for not writing
 		if_flush_n_out <= '1';   -- 0 for cleaning the if/id pipe stage, 1 for not cleaning
             end case;
     end process;
