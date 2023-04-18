@@ -1,0 +1,22 @@
+m255
+K4
+z2
+!s11f vlog 2020.4 2020.10, Oct 13 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/isa31_2022_2023/lab4/part1/sim
+T_opt
+!s11d alu_tb_sv_unit /home/isa31_2022_2023/lab4/part1/sim/work 1 alu_if 1 /home/isa31_2022_2023/lab4/part1/sim/work 
+!s110 1680024332
+Vf?4_hAZ6MS8<dXz?^0b=02
+Z1 04 6 4 work alu_tb fast 0
+=1-52540097797c-6423230c-71b9b-dfa
+Z2 o-quiet -auto_acc_if_foreign -work work
+Z3 tCvgOpt 0
+n@_opt
+Z4 OL;O;2020.4;71
+R0
