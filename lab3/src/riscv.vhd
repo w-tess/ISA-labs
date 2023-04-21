@@ -52,6 +52,8 @@ signal m_mem_read_out_sig : std_logic;
 signal wb_memtoreg_out_sig : std_logic;
 signal wb_regwrite_out_sig : std_logic;
 
+signal alu_result_ex_sig: std_logic_vector(31 downto 0) := (others => '0');
+
 component fetch is
     port(
         clk: in std_logic;
@@ -79,6 +81,11 @@ component decode_stage is
            regwr_en : in std_logic;
            wr_data : in std_logic_vector(31 downto 0);
            control_sel : in std_logic;
+		   rd_ex_mem : in std_logic_vector(4 downto 0);
+           alu_result_ex : in std_logic_vector(31 downto 0);
+           alu_result_mem : in std_logic_vector(31 downto 0);
+           regWrite_mem : in std_logic;
+
            rddata1 : out std_logic_vector(31 downto 0);
            rddata2 : out std_logic_vector(31 downto 0);
            imm : out std_logic_vector(31 downto 0);
@@ -123,7 +130,8 @@ component ex_stage is
 		opd2 : out std_logic_vector(31 downto 0);
 		m_mem_read_out : out std_logic;
 		wb_memtoreg_out : out std_logic;
-		wb_regwrite_out : out std_logic
+		wb_regwrite_out : out std_logic;
+        alu_result_ex : out std_logic_vector(31 downto 0)
         );
 end component;
 
@@ -201,6 +209,10 @@ begin
 		regwr_en => regwr_en_sig,
 		wr_data => wr_data_sig,
 		control_sel => control_sel_sig,
+		rd_ex_mem => rd_out_sig,
+        alu_result_ex => alu_result_ex_sig,
+        alu_result_mem => alu_result_sig,
+        regWrite_mem => wb_regwrite_out_sig,
 
 		rddata1 => rddata1_sig,
 		rddata2 => rddata2_sig,
@@ -246,7 +258,8 @@ begin
 		opd2 => opd2_sig,
 		m_mem_read_out => m_mem_read_out_sig,
 		wb_memtoreg_out => wb_memtoreg_out_sig,
-		wb_regwrite_out => wb_regwrite_out_sig
+		wb_regwrite_out => wb_regwrite_out_sig,
+		alu_result_ex => alu_result_ex_sig
 	);
 	
 	my_mem_stage : mem_stage

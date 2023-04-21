@@ -63,8 +63,8 @@ end component;
 
 begin
 
-wr_data_out <= 	mem_data_wb when wb_memtoreg_in = '1' else
-				alu_result_wb when wb_memtoreg_in = '0';
+wr_data_out <= 	mem_data_wb when wb_memtoreg_wb = '1' else
+				alu_result_wb when wb_memtoreg_wb = '0';
 
 word_to_write <= Opd2_in when reset_n = '1' else
 				 data_load when reset_n = '0';

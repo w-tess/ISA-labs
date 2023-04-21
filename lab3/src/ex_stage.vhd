@@ -20,12 +20,14 @@ entity ex_stage is
 		m_mem_read: in std_logic;
 		wb_memtoreg: in std_logic;
 		wb_regwrite: in std_logic;
+
 		rd_out : out std_logic_vector(4 downto 0);
 		alu_result : out std_logic_vector(31 downto 0);
 		opd2 : out std_logic_vector(31 downto 0);
 		m_mem_read_out : out std_logic;
 		wb_memtoreg_out : out std_logic;
-		wb_regwrite_out : out std_logic
+		wb_regwrite_out : out std_logic;
+        alu_result_ex : out std_logic_vector(31 downto 0)
     );
 end entity;
 
@@ -34,7 +36,7 @@ architecture str of ex_stage is
   -- Signal declarations   
 signal opd1_ex: std_logic_vector(31 downto 0) := (others => '0');
 signal opd2_ex: std_logic_vector(31 downto 0) := (others => '0');
-signal alu_result_ex: std_logic_vector(31 downto 0) := (others => '0');
+signal alu_result_ex_sig: std_logic_vector(31 downto 0) := (others => '0');
 signal forward_mem : std_logic_vector(31 downto 0) := (others => '0');
 
 component ALU is
@@ -68,7 +70,7 @@ end component;
 
 
 begin --str
-
+alu_result_ex <= alu_result_ex_sig;
 alu_result <= forward_mem;
 
 opd1_ex <= std_logic_vector(resize(signed(pc_in),32) + 4194304) when forwardA = "00" and ex_opd1_sel = '0' else
@@ -87,7 +89,7 @@ my_ex_mem_pipe : ex_mem_pipe
 		clk => clk,
         reset_n => reset_n,
         enable => '1',
-        Alu_result_in => alu_result_ex,
+        Alu_result_in => alu_result_ex_sig,
         Opd2_in => opd2_ex,
         Rd_in => rd_in,
         m_mem_read_in => m_mem_read,
@@ -107,7 +109,7 @@ my_alu : ALU
     	A => opd1_ex,
 		B => opd2_ex,
 		alucode => ex_alu_op,
-		ALU_Result => alu_result_ex
+		ALU_Result => alu_result_ex_sig
     );
 
 

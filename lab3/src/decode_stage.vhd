@@ -12,6 +12,11 @@ entity decode_stage is
            regwr_en : in std_logic;
            wr_data : in std_logic_vector(31 downto 0);
            control_sel : in std_logic;
+           rd_ex_mem : in std_logic_vector(4 downto 0);
+           alu_result_ex : in std_logic_vector(31 downto 0);
+           alu_result_mem : in std_logic_vector(31 downto 0);
+           regWrite_mem : in std_logic;
+
            rddata1 : out std_logic_vector(31 downto 0);
            rddata2 : out std_logic_vector(31 downto 0);
            imm : out std_logic_vector(31 downto 0);
@@ -54,6 +59,13 @@ signal m_mem_read_mux : std_logic := '0';
 signal wb_memtoreg_mux : std_logic := '0';
 signal wb_regwrite_mux : std_logic := '0';
 signal branch_sel_id : std_logic;
+
+--signal forward_branch_A : std_logic_vector(1 downto 0);
+--signal forward_branch_B : std_logic_vector(1 downto 0);
+signal regWrite_ex : std_logic := '0';
+signal rd_id_ex : std_logic_vector(4 downto 0);
+signal rs1_forward: std_logic_vector(31 downto 0) := (others => '0');
+signal rs2_forward: std_logic_vector(31 downto 0) := (others => '0');
 
 component register_file is
     port (
@@ -131,10 +143,36 @@ component id_ex_pipe is
 end component;
        
 begin --str
-
+    rd <= rd_id_ex;
+    wb_regwrite <= regWrite_ex;
     rs1_id <= instruction_in(19 downto 15);
     rs2_id <= instruction_in(24 downto 20);
-	
+
+--    forward_branch_A := "01" when instruction_in(19 downto 15) = rd_id_ex and regWrite_ex = '1' and instruction_in(19 downto 15) /= "00000" and instruction_in(6 downto 0) = "1100011" else
+--                        "10" when instruction_in(19 downto 15) = rd_ex_mem and regWrite_mem = '1' and instruction_in(19 downto 15) /= "00000" and instruction_in(6 downto 0) = "1100011"  else
+--                        "00";
+--
+--   forward_branch_B := "01" when instruction_in(24 downto 20) = rd_id_ex and regWrite_ex = '1' and instruction_in(24 downto 20) /= "00000" and instruction_in(6 downto 0) = "1100011" else
+--                        "10" when instruction_in(24 downto 20) = rd_ex_mem and regWrite_mem = '1' and instruction_in(24 downto 20) /= "00000" and instruction_in(6 downto 0) = "1100011"  else
+--                        "00";
+--	
+--    rs1_forward <=  rs1_content_id when forward_branch_A = "00" else
+--                    alu_result_ex when forward_branch_A = "01" else
+--                    alu_result_mem when forward_branch_A = "10";
+--                  
+--    rs2_forward <=  rs2_content_id when forward_branch_B = "00" else
+--                    alu_result_ex when forward_branch_B = "01" else
+--                    alu_result_mem when forward_branch_B = "10";
+
+    rs1_forward <=  alu_result_ex when instruction_in(19 downto 15) = rd_id_ex and regWrite_ex = '1' and instruction_in(19 downto 15) /= "00000" and instruction_in(6 downto 0) = "1100011" else
+                    alu_result_mem when instruction_in(19 downto 15) = rd_ex_mem and regWrite_mem = '1' and instruction_in(19 downto 15) /= "00000" and instruction_in(6 downto 0) = "1100011"  else
+                    rs1_content_id;
+
+    rs2_forward <=  alu_result_ex when instruction_in(24 downto 20) = rd_id_ex and regWrite_ex = '1' and instruction_in(24 downto 20) /= "00000" and instruction_in(6 downto 0) = "1100011" else
+                    alu_result_mem when instruction_in(24 downto 20) = rd_ex_mem and regWrite_mem = '1' and instruction_in(24 downto 20) /= "00000" and instruction_in(6 downto 0) = "1100011"  else
+                    rs2_content_id;
+
+
 	ex_alu_op_mux <= ex_alu_op_id when control_sel = '1' else
 					 "000" when control_sel = '0';
 	ex_opd1_sel_mux <= ex_opd1_sel_id when control_sel = '1' else
@@ -148,28 +186,31 @@ begin --str
 	wb_regwrite_mux <= wb_regwrite_id when control_sel = '1' else
 					 '0' when control_sel = '0';
 	
-	process (rs1_content_id, rs2_content_id)
+	process (rs1_forward, rs2_forward)
 	begin
-		if rs1_content_id = rs2_content_id then
+		if rs1_forward = rs2_forward then
 			data_equal_id <= '1';
 		else
 			data_equal_id <= '0';
 		end if;
-		if signed(rs1_content_id) >= signed(rs1_content_id) then
+		if signed(rs1_forward) >= signed(rs2_forward) then
 			data_greater_equal_id <= '1';
 		else
 			data_greater_equal_id <= '0';
 		end if;
 	end process;
 	
-	process (branch_sel_id, imm_id, rs1_content_id, pc_in)
+	process (branch_sel_id, imm_id, rs1_forward, pc_in)
 	begin
 		if branch_sel_id = '1' then
-			branch_addr <= std_logic_vector(resize(SIGNED(imm_id),11) + resize(signed(rs1_content_id), 11));
+			branch_addr <= std_logic_vector(resize(SIGNED(imm_id),11) + resize(signed(rs1_forward), 11));
 		else
 			branch_addr <= std_logic_vector(resize(SIGNED(imm_id),11) + signed(pc_in));
 		end if;
 	end process;
+
+
+
 
     my_reg_file : register_file
     port map (
@@ -215,8 +256,8 @@ begin --str
         reset_n => reset_n,
         enable => '1',
         pc_in => pc_in,
-        Register1_in => rs1_content_id,
-        Register2_in => rs2_content_id,
+        Register1_in => rs1_forward,
+        Register2_in => rs2_forward,
         Immediate_in => imm_id,
         Rs1_in => instruction_in(19 downto 15),
         Rs2_in => instruction_in(24 downto 20),
@@ -233,13 +274,13 @@ begin --str
         Immediate_out => imm,
         Rs1_out => rs1_out,
         Rs2_out => rs2_out,
-        Rd_out => rd,
+        Rd_out => rd_id_ex,
         ex_alu_op_out => ex_alu_op,
         ex_opd1_sel_out => ex_opd1_sel,
         ex_opd2_sel_out => ex_opd2_sel,
         m_mem_read_out => m_mem_read,
         wb_memtoreg_out => wb_memtoreg,
-        wb_regwrite_out => wb_regwrite
+        wb_regwrite_out => regWrite_ex
     );
     
            
