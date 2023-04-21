@@ -40,7 +40,7 @@ begin
             reg_file <= (0 => (others => '0'), others => (others => '0'));
             reg_file(2) <= x"7fffeffc";
             reg_file(3) <= x"10008000";
-        elsif CLK'event and CLK = '1' then  -- rising clock edge
+        elsif CLK'event and CLK = '0' then  -- falling clock edge ------------------------------------
             if (regWrite = '1' and wrReg /= "00000") then
                 reg_file(write_data) <= wrData;
             end if;
