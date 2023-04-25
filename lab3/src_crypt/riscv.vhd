@@ -9,7 +9,9 @@ entity riscv is
 		instruction_load: in std_logic_vector(31 downto 0);
 		instruction_address: in std_logic_vector(10 downto 0);
 		data_load: in std_logic_vector(31 downto 0);
-		data_address: in std_logic_vector(10 downto 0)
+		data_address: in std_logic_vector(10 downto 0);
+		key_load: in std_logic_vector(31 downto 0);
+		key_address: in std_logic_vector(10 downto 0)
     );
 end entity riscv;
 
@@ -65,6 +67,8 @@ component fetch is
         pc_skip: in std_logic_vector(10 downto 0);
 		instruction_load_f: in std_logic_vector(31 downto 0);
 		address_load_f: in std_logic_vector(10 downto 0);
+        key_write : in std_logic_vector(31 downto 0);
+        adx_key_write : in std_logic_vector(10 downto 0);
 
         pc: out std_logic_vector(10 downto 0);
         instruction: out std_logic_vector(31 downto 0)
@@ -192,8 +196,10 @@ begin
         pc_enable => pc_enable_sig,
         pc_src => pc_src_sig,
         pc_skip => brach_addr_sig,
-	address_load_f => instruction_address,
-	instruction_load_f => instruction_load,
+		address_load_f => instruction_address,
+		instruction_load_f => instruction_load,
+        key_write => key_load,
+        adx_key_write => key_address,
         
         pc => pc_sig,
         instruction => instruction_sig 

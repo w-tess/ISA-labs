@@ -20,7 +20,9 @@ architecture beh of tb_riscv is
 	        instruction_load: in std_logic_vector(31 downto 0);
 	        instruction_address: in std_logic_vector(10 downto 0);
             data_load: in std_logic_vector(31 downto 0);
-            data_address: in std_logic_vector(10 downto 0)
+            data_address: in std_logic_vector(10 downto 0);
+            key_load: in std_logic_vector(31 downto 0);
+            key_address: in std_logic_vector(10 downto 0)
         );
     end component;
 
@@ -29,13 +31,16 @@ architecture beh of tb_riscv is
     signal rst_n_sig: std_logic := '0';
     signal im_ready: std_logic := '0';
     signal dm_ready: std_logic := '0';
+    signal km_ready: std_logic := '0';
     signal iADX: std_logic_vector(10 downto 0) := "11111111100";
     signal iin: std_logic_vector(31 downto 0) := (others => '0');
     signal dADX: std_logic_vector(10 downto 0) := "11111111100";
     signal din: std_logic_vector(31 downto 0) := (others => '0');
+    signal kADX: std_logic_vector(10 downto 0) := "11111111100";
+    signal kin: std_logic_vector(31 downto 0) := (others => '0');
 
 begin --beh
-    rst_n_sig <= im_ready and dm_ready;
+    rst_n_sig <= im_ready and dm_ready and km_ready;
     --instantiate the dut
     riscv_lite: riscv
     port map(
@@ -44,7 +49,9 @@ begin --beh
         instruction_load => iin,
         instruction_address => iADX,
         data_load => din,
-        data_address => dADX
+        data_address => dADX,
+        key_load => kin,
+        key_address => kADX
     );
 
     -- Clock generator
@@ -65,7 +72,7 @@ begin --beh
 
 -- Process to initialize instructions to memory and to read
   	process (clk)
-		FILE fp : text open read_mode is "code.hex";
+		FILE fp : text open read_mode is "enc.hex";
  		variable read_line : line;
  		variable instruction : std_logic_vector(31 downto 0);
 	begin
@@ -97,6 +104,24 @@ begin
             dADX <= dADX + 4 after tco;
         end if;
         dm_ready <= '1';
+    end if;
+  end process;
+
+  -- Process to initialize key memory
+process (clk)
+    FILE fp3 : text open read_mode is "key.hex";
+     variable read_line_key : line;
+     variable read_key : std_logic_vector(31 downto 0);
+begin
+    if not endfile(fp3) then
+        if (clk'event and clk = '0') then  --falling clock edge
+            km_ready <= '0';
+            readline(fp3, read_line_key);
+            hread(read_line_key, read_key);	--content of the line read in -data-	
+            kin <= read_key after tco;
+            kADX <= kADX + 4 after tco;
+        end if;
+        km_ready <= '1';
     end if;
   end process;
 end architecture;

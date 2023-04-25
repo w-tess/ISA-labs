@@ -15,8 +15,10 @@ entity fetch is
         pc_enable: in std_logic;
         pc_src: in std_logic;
         pc_skip: in std_logic_vector(10 downto 0);
-	instruction_load_f: in std_logic_vector(31 downto 0);
-	address_load_f: in std_logic_vector(10 downto 0);
+        instruction_load_f: in std_logic_vector(31 downto 0);
+        address_load_f: in std_logic_vector(10 downto 0);
+        key_write : in std_logic_vector(31 downto 0);
+        adx_key_write : in std_logic_vector(10 downto 0);
 	
         pc: out std_logic_vector(10 downto 0);
         instruction: out std_logic_vector(31 downto 0)
@@ -24,7 +26,6 @@ entity fetch is
 end entity;
 
 architecture beh of fetch is
-    constant tco : time := 1 ns;
 
     component instructionMemory
         port (
@@ -71,14 +72,63 @@ architecture beh of fetch is
         );
     end component adder_pc;
 
-    -- Signal declarations
-    signal sPC: std_logic_vector(10 downto 0) := (others => '0');
-    signal sPC_inc: std_logic_vector(10 downto 0) := (others => '0');
-    signal sInstruction: std_logic_vector(31 downto 0) := (others => '0');
-    signal sPC_decr: std_logic_vector(10 downto 0) := (others => '0');
+-- Signal declarations
+signal sPC: std_logic_vector(10 downto 0) := (others => '0');
+signal sPC_inc: std_logic_vector(10 downto 0) := (others => '0');
+signal sInstruction: std_logic_vector(31 downto 0) := (others => '0');
+
+--signals for encription
+signal kout_sig: std_logic_vector(31 downto 0) := (others => '0');
+signal key_addr_sig: std_logic_vector(10 downto 0) := (others => '0');
+signal sInstruction_decr: std_logic_vector(31 downto 0) := (others => '0');
+
+component i_decr is
+    port(
+        encr     : in  std_logic_vector(31 downto 0);
+        key      : in  std_logic_vector(31 downto 0);
+        pc_out   : in  std_logic_vector(10 downto 0);
+
+        key_addr : out std_logic_vector(10 downto 0);
+        decr     : out std_logic_vector(31 downto 0)
+    );
+end component;
+
+component key_memory is 
+    port (
+        clk : in  std_logic;
+        rst_n: in  std_logic;
+        key_write : in  std_logic_vector(31 downto 0);
+        adx_read : in  std_logic_vector(10 downto 0);
+        adx_write : in  std_logic_vector(10 downto 0);
+    
+        kout : out std_logic_vector(31 downto 0)
+    );
+end component;
 
 begin --beh
-    sPC_decr <= sPC;
+    
+
+    my_i_decr : i_decr
+    port map (
+        encr => sInstruction,
+        key => kout_sig,
+        pc_out => sPC,
+        
+        key_addr => key_addr_sig,
+        decr => sInstruction_decr
+    );
+
+
+    my_key_memory : key_memory
+    port map (
+        clk => clk,
+        rst_n => rst_n,
+        key_write => key_write,
+        adx_read => key_addr_sig,
+        adx_write => adx_key_write,
+    
+        kout => kout_sig
+    );
 
     programCounter: program_counter
     port map(
@@ -103,8 +153,8 @@ begin --beh
         rst_n => rst_n,
         enable => if_id_enable,
         flush => if_id_flush,
-        pc_in => sPC_decr,
-        instruction_in => sInstruction,
+        pc_in => sPC,
+        instruction_in => sInstruction_decr,
         pc_out => pc,
         instruction_out => instruction
     );
@@ -114,8 +164,8 @@ begin --beh
         clk => clk,
         rst_n => rst_n,
         adx => sPC,
-	instruction_load_i => instruction_load_f,
-	address_load_i => address_load_f,
+	    instruction_load_i => instruction_load_f,
+	    address_load_i => address_load_f,
 
         dout => sInstruction
     );
