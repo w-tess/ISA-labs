@@ -69,7 +69,7 @@ wr_data_out <= 	mem_data_wb when wb_memtoreg_wb = '1' else
 word_to_write <= Opd2_in when reset_n = '1' else
 				 data_load when reset_n = '0';
 
-address_to_write <= Alu_result_in(10 downto 0) when reset_n = '1' else
+address_to_write <= ('0' & Alu_result_in(9 downto 0)) when reset_n = '1' else
 					data_address when reset_n = '0';
 
 we_n <= m_mem_read_in when reset_n = '1' else

@@ -36,6 +36,7 @@ architecture str of ex_stage is
   -- Signal declarations   
 signal opd1_ex: std_logic_vector(31 downto 0) := (others => '0');
 signal opd2_ex: std_logic_vector(31 downto 0) := (others => '0');
+signal opd2_alu: std_logic_vector(31 downto 0) := (others => '0');
 signal alu_result_ex_sig: std_logic_vector(31 downto 0) := (others => '0');
 signal forward_mem : std_logic_vector(31 downto 0) := (others => '0');
 
@@ -78,10 +79,14 @@ opd1_ex <= std_logic_vector(resize(signed(pc_in),32) + 4194304) when forwardA = 
 		   forward_mem when forwardA = "10" else
 		   forward_wb when forwardA = "01";
 
-opd2_ex <= imm when forwardB = "00" and ex_opd2_sel = '0' else
+opd2_alu <= imm when forwardB = "00" and ex_opd2_sel = '0' else
 		   rs2_data when forwardB = "00" and ex_opd2_sel = '1' else
 		   forward_mem when forwardB = "10" else
 		   forward_wb when forwardB = "01";
+
+opd2_ex <=  rs2_data when forwardB = "00"  else
+            forward_mem when forwardB = "10" else
+            forward_wb when forwardB = "01";
 
 
 my_ex_mem_pipe : ex_mem_pipe 
@@ -107,7 +112,7 @@ my_ex_mem_pipe : ex_mem_pipe
 my_alu : ALU
     port map (
     	A => opd1_ex,
-		B => opd2_ex,
+		B => opd2_alu,
 		alucode => ex_alu_op,
 		ALU_Result => alu_result_ex_sig
     );

@@ -27,9 +27,9 @@ begin
     begin
         case opcode is
             when "0000011" => -- lw
-				ex_alu_op <= "001"; 	 --sub
+				ex_alu_op <= "011"; 	 --add
 				ex_opd1_sel <= '1'; 	 -- 1 for <rs1>,  0 for pc 
-				ex_opd2_sel <= '1'; 	 -- 1 for <rs2>,  0 for imm 
+				ex_opd2_sel <= '0'; 	 -- 1 for <rs2>,  0 for imm 
 				branch_sel <= '-';   	 -- 1 for <rs1>,  0 for pc 
 				pc_src <= '1';    	 -- 1 for pc++, 0 for branch target
 				m_mem_read <= '1';  	 -- 1 for reading, 0 for writing
