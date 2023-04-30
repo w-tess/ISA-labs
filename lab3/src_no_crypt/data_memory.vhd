@@ -15,8 +15,6 @@ end entity data_memory;
 
 architecture beh of data_memory is
 
-  constant tco : time := 1 ns;
-
   component sram_32_1024_freepdk45
     port (
       clk0    : in  std_logic;

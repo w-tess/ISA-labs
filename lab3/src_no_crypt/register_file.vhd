@@ -19,7 +19,7 @@ end entity register_file;
 
 architecture rtl of register_file is
     type register_array is array (0 to 31) of std_logic_vector(31 downto 0);
-    signal reg_file : register_array := (0 => (others => '0'), others => (others => '0'));
+    signal reg_file : register_array;
 
     signal read_data1 : integer range 0 to 31;
     signal read_data2 : integer range 0 to 31;

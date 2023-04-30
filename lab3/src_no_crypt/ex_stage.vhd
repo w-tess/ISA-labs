@@ -34,11 +34,11 @@ end entity;
 architecture str of ex_stage is
 
   -- Signal declarations   
-signal opd1_ex: std_logic_vector(31 downto 0) := (others => '0');
-signal opd2_ex: std_logic_vector(31 downto 0) := (others => '0');
-signal opd2_alu: std_logic_vector(31 downto 0) := (others => '0');
-signal alu_result_ex_sig: std_logic_vector(31 downto 0) := (others => '0');
-signal forward_mem : std_logic_vector(31 downto 0) := (others => '0');
+signal opd1_ex: std_logic_vector(31 downto 0);
+signal opd2_ex: std_logic_vector(31 downto 0);
+signal opd2_alu: std_logic_vector(31 downto 0);
+signal alu_result_ex_sig: std_logic_vector(31 downto 0);
+signal forward_mem : std_logic_vector(31 downto 0);
 
 component ALU is
     Port ( 
@@ -77,16 +77,16 @@ alu_result <= forward_mem;
 opd1_ex <= std_logic_vector(resize(signed(pc_in),32) + 4194304) when forwardA = "00" and ex_opd1_sel = '0' else
 		   rs1_data when forwardA = "00" and ex_opd1_sel = '1' else
 		   forward_mem when forwardA = "10" else
-		   forward_wb when forwardA = "01";
+		   forward_wb;
 
 opd2_alu <= imm when forwardB = "00" and ex_opd2_sel = '0' else
 		   rs2_data when forwardB = "00" and ex_opd2_sel = '1' else
 		   forward_mem when forwardB = "10" else
-		   forward_wb when forwardB = "01";
+		   forward_wb;
 
 opd2_ex <=  rs2_data when forwardB = "00"  else
             forward_mem when forwardB = "10" else
-            forward_wb when forwardB = "01";
+            forward_wb;
 
 
 my_ex_mem_pipe : ex_mem_pipe 

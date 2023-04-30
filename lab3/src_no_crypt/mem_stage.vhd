@@ -24,13 +24,13 @@ end entity;
 architecture str of mem_stage is
 
   -- Signal declarations   
-signal mem_data: std_logic_vector(31 downto 0) := (others => '0');
-signal mem_data_wb: std_logic_vector(31 downto 0) := (others => '0');
-signal alu_result_wb: std_logic_vector(31 downto 0) := (others => '0');
+signal mem_data: std_logic_vector(31 downto 0);
+signal mem_data_wb: std_logic_vector(31 downto 0);
+signal alu_result_wb: std_logic_vector(31 downto 0);
 signal wb_memtoreg_wb: std_logic;
 
-signal word_to_write: std_logic_vector(31 downto 0) := (others => '0');
-signal address_to_write: std_logic_vector(10 downto 0) := (others => '0');
+signal word_to_write: std_logic_vector(31 downto 0);
+signal address_to_write: std_logic_vector(10 downto 0);
 signal we_n: std_logic;
 
 component mem_wb_pipe is
