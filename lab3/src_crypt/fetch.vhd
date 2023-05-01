@@ -73,14 +73,14 @@ architecture beh of fetch is
     end component adder_pc;
 
 -- Signal declarations
-signal sPC: std_logic_vector(10 downto 0) := (others => '0');
-signal sPC_inc: std_logic_vector(10 downto 0) := (others => '0');
-signal sInstruction: std_logic_vector(31 downto 0) := (others => '0');
+signal sPC: std_logic_vector(10 downto 0);
+signal sPC_inc: std_logic_vector(10 downto 0);
+signal sInstruction: std_logic_vector(31 downto 0);
 
 --signals for encription
-signal kout_sig: std_logic_vector(31 downto 0) := (others => '0');
-signal key_addr_sig: std_logic_vector(10 downto 0) := (others => '0');
-signal sInstruction_decr: std_logic_vector(31 downto 0) := (others => '0');
+signal kout_sig: std_logic_vector(31 downto 0);
+signal key_addr_sig: std_logic_vector(10 downto 0);
+signal sInstruction_decr: std_logic_vector(31 downto 0);
 
 component i_decr is
     port(

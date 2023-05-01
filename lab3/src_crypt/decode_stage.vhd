@@ -41,31 +41,31 @@ end entity;
 architecture str of decode_stage is
 
   -- Signal declarations   
-signal imm_id: std_logic_vector(31 downto 0) := (others => '0');
-signal rs1_content_id: std_logic_vector(31 downto 0) := (others => '0');
-signal rs2_content_id: std_logic_vector(31 downto 0) := (others => '0');
-signal ex_alu_op_id: std_logic_vector(2 downto 0) := (others => '0');
-signal ex_opd1_sel_id : std_logic := '0';
-signal ex_opd2_sel_id : std_logic := '0';
-signal data_greater_equal_id : std_logic := '0';
-signal data_equal_id : std_logic := '0';
-signal m_mem_read_id : std_logic := '0';
-signal wb_memtoreg_id : std_logic := '0';
-signal wb_regwrite_id : std_logic := '0';
-signal ex_alu_op_mux: std_logic_vector(2 downto 0) := (others => '0');
-signal ex_opd1_sel_mux : std_logic := '0';
-signal ex_opd2_sel_mux : std_logic := '0';
-signal m_mem_read_mux : std_logic := '0';
-signal wb_memtoreg_mux : std_logic := '0';
-signal wb_regwrite_mux : std_logic := '0';
+signal imm_id: std_logic_vector(31 downto 0);
+signal rs1_content_id: std_logic_vector(31 downto 0);
+signal rs2_content_id: std_logic_vector(31 downto 0);
+signal ex_alu_op_id: std_logic_vector(2 downto 0);
+signal ex_opd1_sel_id : std_logic;
+signal ex_opd2_sel_id : std_logic;
+signal data_greater_equal_id : std_logic;
+signal data_equal_id : std_logic;
+signal m_mem_read_id : std_logic;
+signal wb_memtoreg_id : std_logic;
+signal wb_regwrite_id : std_logic;
+signal ex_alu_op_mux: std_logic_vector(2 downto 0);
+signal ex_opd1_sel_mux : std_logic;
+signal ex_opd2_sel_mux : std_logic;
+signal m_mem_read_mux : std_logic;
+signal wb_memtoreg_mux : std_logic;
+signal wb_regwrite_mux : std_logic;
 signal branch_sel_id : std_logic;
 
 --signal forward_branch_A : std_logic_vector(1 downto 0);
 --signal forward_branch_B : std_logic_vector(1 downto 0);
-signal regWrite_ex : std_logic := '0';
+signal regWrite_ex : std_logic;
 signal rd_id_ex : std_logic_vector(4 downto 0);
-signal rs1_forward: std_logic_vector(31 downto 0) := (others => '0');
-signal rs2_forward: std_logic_vector(31 downto 0) := (others => '0');
+signal rs1_forward: std_logic_vector(31 downto 0);
+signal rs2_forward: std_logic_vector(31 downto 0);
 
 component register_file is
     port (

@@ -15,7 +15,7 @@ end entity;
 
 architecture beh of program_counter is
 
-signal sPC: std_logic_vector(10 downto 0) := (others => '0');
+signal sPC: std_logic_vector(10 downto 0);
 
     component pc
         port(

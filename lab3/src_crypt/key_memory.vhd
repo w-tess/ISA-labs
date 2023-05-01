@@ -18,7 +18,7 @@ end entity key_memory;
 architecture beh of key_memory is
 
 -- Signal declarations
-signal key_out: std_logic_vector(31 downto 0) := (others => '0');
+signal key_out: std_logic_vector(31 downto 0);
 signal sADX: std_logic_vector(10 downto 0);
 
   component sram_32_1024_freepdk45
