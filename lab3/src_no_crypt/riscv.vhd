@@ -52,7 +52,7 @@ signal m_mem_read_out_sig : std_logic;
 signal wb_memtoreg_out_sig : std_logic;
 signal wb_regwrite_out_sig : std_logic;
 
-signal alu_result_ex_sig: std_logic_vector(31 downto 0);
+signal alu_result_ex_sig: std_logic_vector(31 downto 0) := (others => '0');
 
 component fetch is
     port(

@@ -34,11 +34,11 @@ end entity;
 architecture str of ex_stage is
 
   -- Signal declarations   
-signal opd1_ex: std_logic_vector(31 downto 0);
-signal opd2_ex: std_logic_vector(31 downto 0);
-signal opd2_alu: std_logic_vector(31 downto 0);
-signal alu_result_ex_sig: std_logic_vector(31 downto 0);
-signal forward_mem : std_logic_vector(31 downto 0);
+signal opd1_ex: std_logic_vector(31 downto 0) := (others => '0');
+signal opd2_ex: std_logic_vector(31 downto 0) := (others => '0');
+signal opd2_alu: std_logic_vector(31 downto 0) := (others => '0');
+signal alu_result_ex_sig: std_logic_vector(31 downto 0) := (others => '0');
+signal forward_mem : std_logic_vector(31 downto 0) := (others => '0');
 
 component ALU is
     Port ( 

@@ -44,7 +44,7 @@ key_memory_a : sram_32_1024_freepdk45
       dout0 => key_out
 	);
 
-kout <= (others => '0') when sADX = "11111111100" else key_out;
+kout <= (others => '0') when adx_read = "00111111100" else key_out;
 
 sADX <= adx_write when rst_n = '0' else
         adx_read when rst_n = '1';

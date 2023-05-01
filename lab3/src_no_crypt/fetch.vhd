@@ -24,6 +24,7 @@ entity fetch is
 end entity;
 
 architecture beh of fetch is
+    constant tco : time := 1 ns;
 
     component instructionMemory
         port (
@@ -71,10 +72,10 @@ architecture beh of fetch is
     end component adder_pc;
 
     -- Signal declarations
-    signal sPC: std_logic_vector(10 downto 0);
-    signal sPC_inc: std_logic_vector(10 downto 0);
-    signal sInstruction: std_logic_vector(31 downto 0);
-    signal sPC_decr: std_logic_vector(10 downto 0);
+    signal sPC: std_logic_vector(10 downto 0) := (others => '0');
+    signal sPC_inc: std_logic_vector(10 downto 0) := (others => '0');
+    signal sInstruction: std_logic_vector(31 downto 0) := (others => '0');
+    signal sPC_decr: std_logic_vector(10 downto 0) := (others => '0');
 
 begin --beh
     sPC_decr <= sPC;

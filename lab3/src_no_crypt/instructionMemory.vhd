@@ -20,6 +20,8 @@ end entity instructionMemory;
 
 architecture beh of instructionMemory is
 
+  constant tco : time := 1 ns;
+
   component sram_32_1024_freepdk45
     port (
       clk0    : in  std_logic;
@@ -32,8 +34,8 @@ architecture beh of instructionMemory is
   end component sram_32_1024_freepdk45;
   
   -- Signal declarations
-signal wen: std_logic;
-signal data_out: std_logic_vector(31 downto 0);
+signal wen: std_logic := '1';
+signal data_out: std_logic_vector(31 downto 0) := (others => '0');
 signal sADX: std_logic_vector(10 downto 0);
 
 begin  -- architecture beh
